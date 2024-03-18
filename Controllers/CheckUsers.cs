@@ -1,6 +1,10 @@
-﻿using SuperbrainManagement.Models;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Org.BouncyCastle.Asn1.Ocsp;
+using SuperbrainManagement.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Web;
 
 namespace SuperbrainManagement.Controllers
 {
@@ -42,6 +46,28 @@ namespace SuperbrainManagement.Controllers
         /// <summary>
         /// Code check phân quyền của user
         /// </summary>
+                public static string checkRole(int IdpermissionCategory)
+                {
+                    MD5Hash md5 = new MD5Hash();
+                    string iduser = System.Web.HttpContext.Current.Request.Cookies["check"]["iduser"].ToString();
+                    iduser = md5.Decrypt(iduser.ToString());
+                    List<Permission> permission = Connect.Select<Permission>("select * from Permission per where per.IdPermissionCategory = '" + IdpermissionCategory + "'");
+                       if (permission != null)
+                        {
+                            foreach(Permission permissiones in permission) {
+                                List<UserPermission> userpermission = Connect.Select<UserPermission>("select * from UserPermission where IdPermission = '"+permissiones.Id+"' and IdUser = '"+iduser+"' ");
+                                foreach(UserPermission user in userpermission)
+                                {
+                                    if(user.IsRead == true || user.IsEdit == true || user.IsCreate == true || user.IsDelete == true)
+                                    {
+                                        return "";
+                                    }
+                                }
+                            }
+                        }
+                       return "hideof"; // Trả về chuỗi "hideof" nếu không có quyền truy cập
+            
+                }
         
     }
 }

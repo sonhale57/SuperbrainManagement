@@ -1,8 +1,10 @@
 ﻿using Hangfire;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Owin;
 using Owin;
 using System;
 using System.Threading.Tasks;
+using System.Web.Services.Description;
 
 [assembly: OwinStartup(typeof(SuperbrainManagement.Startup))]
 

@@ -5,90 +5,344 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@section Scripts
+ {
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Branch.Logo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Employee.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Username)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Enable)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Expire)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Createby)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QRCode)
-        </th>
-        <th></th>
-    </tr>
+     <script>
+         //load data List User
+// Function to load data dynamically
+function updateCheckboxValue(checkbox) {
+    // Kiểm tra xem checkbox có được chọn hay không
+    var value = checkbox.checked ? 1 : 0;
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Branch.Logo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Employee.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Enable)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Expire)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateCreate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Createby)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QRCode)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+    // Gán giá trị cho checkbox
+    checkbox.value = value;
+
+    // In giá trị của checkbox ra console để kiểm tra
+    console.log("Checkbox value updated to: " + value);
+}
+function getDataPermission(idInput) {
+
+    $('#datatable tbody').empty();
+    // AJAX request to send the ID to the controller
+    $.ajax({
+        type: "GET",
+        url: '@Url.Action("GetDataPermissionWithid", "Users")',
+        data: { idInput: idInput },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            // Handle success response
+
+            console.log(response);
+            // Clear existing table rows
+
+
+            // Xóa các hàng cũ khỏi bảng
+            $('#datatable tbody').empty();
+            var table = $('#datatable tbody');
+            // Khi truy cập dữ liệu thành công, thêm dữ liệu vào bảng
+            response.forEach(function (role) {
+
+
+                var row = $('<tr>');
+                row.append('<td><i class="fa fa-barcode"></i><b>' + role.Name + '</b></td>');
+                row.append('<td style="text-align: left;padding-left: -10px;"><a ><i class="fa fa-check"></i></a><input type="hidden" id="checkall1_3" value="1"></td>');
+                row.append('<td style="text-align: left;padding-left: -10px;"><a  ><i class="fa fa-check"></i></a><input type="hidden" id="checkall1_3" value="1"></td>');
+                row.append('<td style="text-align: left;padding-left: -10px;"><a ><i class="fa fa-check"></i></a><input type="hidden" id="checkall1_3" value="1"></td>');
+                row.append('<td style="text-align: left;padding-left:  -10px;"><a ><i class="fa fa-check"></i></a><input type="hidden" id="checkall1_3" value="1"></td>');
+
+                table.append(row);
+
+                role.Permissions.forEach(function (permission) {
+                    /*  permissionRow.append('<td><input class="IdPermission" style="display: none;" type="number" value="' + permission.id + '"></td>');*/
+                    var permissionRow = $('<tr class="permission">');
+                    permissionRow.append('<td>+ ' + permission.Name + '<div class="blur_color">' + permission.code + '</div><input class="IdPermission" hidden type="number" value="' + permission.id + '"></td>');
+
+
+
+                    var isReadCheckbox = '<td><input class="IsRead" type="checkbox" onchange="updateCheckboxValue(this) "' + (permission.IsRead ? ' checked' : '') + ' value="' + (permission.IsRead ? '1' : '0') + '"></td>';
+                    var isCreateCheckbox = '<td><input class="IsCreate" type="checkbox" onchange="updateCheckboxValue(this)"' + (permission.IsCreate ? ' checked' : '') + ' value="' + (permission.IsCreate ? '1' : '0') + '"></td>';
+                    var isEditCheckbox = '<td><input class="IsEdit" type="checkbox" onchange="updateCheckboxValue(this) "' + (permission.IsEdit ? ' checked' : '') + ' value="' + (permission.IsEdit ? '1' : '0') + '"></td>';
+                    var isDeleteCheckbox = '<td><input class="IsDelete" type="checkbox" onchange="updateCheckboxValue(this) "' + (permission.IsDelete ? ' checked' : '') + ' value="' + (permission.IsDelete ? '1' : '0') + '"></td>';
+
+                    // Thêm các checkbox vào hàng
+                    permissionRow.append(isReadCheckbox);
+                    permissionRow.append(isCreateCheckbox);
+                    permissionRow.append(isEditCheckbox);
+                    permissionRow.append(isDeleteCheckbox);
+
+
+                    table.append(permissionRow);
+                });
+
+            });
+
+        },
+        error: function (xhr, status, error) {
+            // Handle error response
+            console.error("Error sending ID:", status, error);
+            $('#datatable tbody').empty();
+        }
+    });
 }
 
+$("#submitButton").click(function (e) {
+    e.preventDefault(); // Prevent form submission
+
+
+    // Create a new instance of the Vehicle class and populate its properties
+
+    // Create an array to hold permissions
+    var Permissions = [];
+
+    // Populate the permissions array with data from form inputs
+    $(".permission").each(function () {
+        var permission = {
+            IdPermission: $(this).find(".IdPermission").val(),
+            IsRead: $(this).find(".IsRead").val(),
+            IsCreate: $(this).find(".IsCreate").val(),
+            IsEdit: $(this).find(".IsEdit").val(),
+            IsDelete: $(this).find(".IsDelete").val()
+        };
+        Permissions.push(permission);
+    });
+
+
+
+    // AJAX request to submit the data
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("SaveChange", "Users")', // Replace with your controller's action method URL
+        data: JSON.stringify(Permissions),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            // Handle the response from the controller if needed
+            console.log("Data submitted successfully to the controller.");
+            console.log("Response from the controller:", response);
+
+        },
+        error: function (xhr, status, error) {
+            // Handle errors here
+            console.error("Error submitting data to the controller:", status, error);
+        }
+    });
+
+});
+  function ChangeStatus(button) {
+    var id = parseInt(button.getAttribute("data-id")); // Chuyển đổi id thành một số nguyên
+    var status = button.value; // Sử dụng button.value thay vì lấy từ tất cả các button
+
+    $.ajax({
+        type: "POST",
+        url: '/Users/updateStatus', // Thay thế bằng URL của action trong controller của bạn
+        data: JSON.stringify({ id: id, status: status }), // Chuyển đối dữ liệu thành JSON chuẩn
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            // Xử lý phản hồi từ controller nếu cần
+            // Thay đổi nội dung của button
+            button.textContent = "KHÔNG HOẠT ĐỘNG";
+        },
+        error: function (xhr, status, error) {
+            // Xử lý lỗi ở đây
+            console.error("Lỗi khi gửi dữ liệu đến controller:", status, error);
+        }
+    });
+}
+
+     </script>
+   
+}
+
+
+<div>
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            TÀI KHOẢN ĐĂNG NHẬP
+        </div>
+    </div>
+  @using (Html.BeginForm("Index","Users",FormMethod.Post))
+            {
+                @Html.TextBox("searching")<input type="submit" value="Search"/>
+            }
+</div>
+
+<table id="example" class="table table-striped table-bordered datatable">
+    <thead>
+        <tr style=" background-color: WHEAT;">
+            <th>STT</th>
+            <th>USER</th>
+            <th>HỌ TÊN</th>
+            <th>CHI NHÁNH</th>
+            <th>CẤP BẬC</th>
+            <th>NGÀY CẬP NHẬT</th>
+            <th>TRẠNG THÁI</th>
+            <th>THỜI HẠN</th>
+            <th>CHỨC NĂNG</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody" id="tableBody">
+        @{
+            int i = 1; // Bắt đầu với số thứ tự 1
+        }
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@Html.DisplayFor(modelItem => item.Username)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td></td>
+                <td></td>
+                <td>@Html.DisplayFor(modelItem => item.DateCreate)</td>
+                <td>
+                    @if (item.Active != null && item.Active == true)
+                    {
+                        <div class="progress" style="height:30px;">
+                            <button data-id="@item.Id" value="0" onclick = "ChangeStatus(this)" class="progress-button progress-bar bg-success" style="width:100%; padding:10px; text-align: center;border: none;">ĐANG HOẠT ĐỘNG</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="progress" style="height:30px;">
+                             <button data-id="@item.Id" value="1" onclick = "ChangeStatus(this)" class="progress-button progress-bar bg-danger" style="width:100%; padding:10px; text-align: center;border: none;">KHÔNG HOẠT ĐỘNG</button>
+                        </div>
+                    }
+                </td>
+
+                <td></td>
+                <td>
+                    <input class="idInput" value="@item.Id" hidden />
+                    <button type="button" class="confirmButton btn btn-primary" onclick="getDataPermission(@item.Id)" data-bs-toggle="modal" data-bs-target="#exampleModal">Phân quyền</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalLong"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-danger"><i class="bi bi-x-square"></i></button>
+                </td>
+            </tr>
+            i++; // Tăng giá trị của i sau mỗi lần lặp
+        }
+
+    </tbody>
 </table>
+
+<!-- Modal -->
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:800px;">
+                <div class="modal-header">
+                    <h5 class="modal-fullscreen" id="exampleModalLabel">Phân quyền</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="vehicleForm">
+                        <table cellpadding="0" cellspacing="0" border="0" class="table" id="datatable">
+                            <colgroup>
+                                <col class="con0">
+                                <col class="con1">
+                                <col class="con0">
+                                <col class="con1">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="width:400px">Chức năng</th>
+                                    <th colspan="4" style="text-align:center"> Quyền cho phép</th>
+                                </tr>
+                                <tr>
+
+                                    <th class="head1" style="text-align:left"> xem</th>
+                                    <th class="head0" style="text-align:left">  <i>Thêm </i></th>
+                                    <th class="head0" style="text-align:left"> <i>Sửa</i></th>
+                                    <th class="head0" style="text-align:left">  <i>Xóa</i></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+
+
+
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" id="submitButton" value="Submit" onclick = "saveChange()" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Sửa thông tin đăng nhập</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="section" style="padding:20px">
+            <div id="ctl10_NaKhoahoc"></div>  
+            <form id="formlenh"> 
+                <input name="ctl10$idusers" type="hidden" id="idusers" value="1"> 
+                <div class="section">   
+                    <div class="col-sm-2">   <label> Họ tên</label></div> 
+                <div class="col-sm-10">
+                    <input name="ctl10$hoten" type="text" id="hoten" class=" form-control" value="admin">      </div>             
+                </div>
+                <div class="section">   
+                    <div class="col-sm-2"> 
+                    <label> Tên đăng nhập </label></div> 
+                <div class="col-sm-10">   <input name="ctl10$usersname" type="text" id="usersname" class=" form-control" value="ad" readonly="true">      </div>             
+                    </div>
+                <div class="section"> 
+                    <div class="col-sm-2"> 
+                        <label> Mật Khẩu</label></div> 
+                    <div class="col-sm-10"><input name="ctl10$password" type="password" id="password" class="form-control">      </div>                         
+                </div>
+                <div class="section">  
+                    <div class="col-sm-2"> <label> Chi nhánh:</label></div> 
+                    <div class="col-sm-10"><select name="ctl10$chinhanh" id="chinhanh" class="form-control" disabled=" disabled">
+            <option selected="selected" value="1">HEAD QUARTER</option>
+            <option value="5217">Superbrain Thủ Đức</option>
+            </select> </div>
+                </div>  
+            <div class="section ">  
+                    <div class="col-sm-2"><label> Cấp Bậc:</label></div>
+                <div class="col-sm-10"> <select name="ctl10$lever" id="lever" class="form-control">
+            <option value="0">Nhân sự</option>
+            <option value="1">Quản lý</option>
+            <option selected="selected" value="2">Admin</option>
+            </select>  </div>
+                </div>  
+                <div class="section ">  
+                    <div class="col-sm-2">   <label> Ghi chú</label></div>
+                <div class="col-sm-10"><input name="ctl10$ghichu" type="text" id="ghichu" class="  form-control">    </div>      
+                </div>              
+                <div class="clear"></div> 
+                <span id="ctl10_msg" style="color:red"></span>
+                <div class="section">  
+              
+                    
+              
+
+                </div> 
+
+            </form> 
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">cập nhật</button>
+      </div>
+    </div>
+  </div>
+</div>
