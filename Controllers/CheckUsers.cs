@@ -10,6 +10,7 @@ namespace SuperbrainManagement.Controllers
 {
     public class CheckUsers
     {
+        public ModelDbContext db = new ModelDbContext();
         public static bool checkcookielogin()
         {
             try
@@ -44,30 +45,62 @@ namespace SuperbrainManagement.Controllers
             catch { return ""; }
         }
         /// <summary>
+        /// Lấy IdUser đăng nhập
+        /// </summary>
+        /// <returns></returns>
+        public static int? idBranch()
+        {
+            try
+            {
+                MD5Hash md5 = new MD5Hash();
+                string idUser = md5.Decrypt(System.Web.HttpContext.Current.Request.Cookies["check"]["iduser"].ToString());
+                if(idUser == "")
+                {
+                    return 0;
+                }else
+                {
+                    ModelDbContext db = new ModelDbContext();
+                    var us = db.Users.Find(int.Parse(idUser));
+                    return us.IdBranch;
+                }    
+            }
+            catch { return 0; }
+        }
+        /// <summary>
         /// Code check phân quyền của user
         /// </summary>
-                public static string checkRole(int IdpermissionCategory)
+        public static string checkRole(int IdpermissionCategory)
+        {
+            try
+            {
+                MD5Hash md5 = new MD5Hash();
+                string iduser = System.Web.HttpContext.Current.Request.Cookies["check"]["iduser"].ToString();
+                if(iduser=="") { return iduser; }
+                else
                 {
-                    MD5Hash md5 = new MD5Hash();
-                    string iduser = System.Web.HttpContext.Current.Request.Cookies["check"]["iduser"].ToString();
                     iduser = md5.Decrypt(iduser.ToString());
                     List<Permission> permission = Connect.Select<Permission>("select * from Permission per where per.IdPermissionCategory = '" + IdpermissionCategory + "'");
-                       if (permission != null)
+                    if (permission != null)
+                    {
+                        foreach (Permission permissiones in permission)
                         {
-                            foreach(Permission permissiones in permission) {
-                                List<UserPermission> userpermission = Connect.Select<UserPermission>("select * from UserPermission where IdPermission = '"+permissiones.Id+"' and IdUser = '"+iduser+"' ");
-                                foreach(UserPermission user in userpermission)
+                            List<UserPermission> userpermission = Connect.Select<UserPermission>("select * from UserPermission where IdPermission = '" + permissiones.Id + "' and IdUser = '" + iduser + "' ");
+                            foreach (UserPermission user in userpermission)
+                            {
+                                if (user.IsRead == true || user.IsEdit == true || user.IsCreate == true || user.IsDelete == true)
                                 {
-                                    if(user.IsRead == true || user.IsEdit == true || user.IsCreate == true || user.IsDelete == true)
-                                    {
-                                        return "";
-                                    }
+                                    return "";
                                 }
                             }
                         }
-                       return "hideof"; // Trả về chuỗi "hideof" nếu không có quyền truy cập
-            
+                    }
+                    return "hideof"; // Trả về chuỗi "hideof" nếu không có quyền truy cập
                 }
-        
+            }
+            catch
+            {
+                return "";
+            }
+        }
     }
 }

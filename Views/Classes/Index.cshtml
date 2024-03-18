@@ -10,10 +10,10 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table table-striped ">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Branch.Logo)
+            @Html.DisplayNameFor(model => model.Branch.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.User.Name)
@@ -39,7 +39,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Branch.Logo)
+            @Html.DisplayFor(modelItem => item.Branch.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.User.Name)
@@ -60,11 +60,46 @@
             @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Thời khóa biểu", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }
-
 </table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px;">
+            <div class="modal-header">
+                <h5 class="modal-fullscreen" id="exampleModalLabel">Phân quyền</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="vehicleForm">
+                    <table cellpadding="0" cellspacing="0" border="0" class="table" id="datatable">
+                        <thead>
+                            <tr>
+                                <th style="width:400px">Chức năng</th>
+                                <th style="text-align:center"> Tên</th>
+                                <th style="text-align:center"> Từ giờ</th>
+                                <th style="text-align:center"> Đến giờ</th>
+                                <th style="text-align:center"> Giáo viên</th>
+                                <th style="text-align:center"> Phòng học</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="submitButton" value="Submit" onclick="saveChange()" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

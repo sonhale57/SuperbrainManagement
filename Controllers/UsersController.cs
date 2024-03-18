@@ -44,6 +44,7 @@ namespace SuperbrainManagement.Controllers
 
             public int IsEdit { get; set; }
         }
+
         // GET LIST PERMISSION
         [HttpGet]
         public ActionResult GetDataPermissionWithid(int idInput)
@@ -56,8 +57,6 @@ namespace SuperbrainManagement.Controllers
             if (userPermissions.Count > 0)
             {
                 Model = LoadDataPermission(idInput);
-
-
             }
             else
             {

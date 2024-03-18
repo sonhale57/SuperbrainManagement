@@ -10,116 +10,114 @@ using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
 {
-    public class ClassesController : Controller
+    public class RoomsController : Controller
     {
         private ModelDbContext db = new ModelDbContext();
 
-        // GET: Classes
+        // GET: Rooms
         public ActionResult Index()
         {
-            return View(db.Classes.ToList());
+            var rooms = db.Rooms.Include(r => r.Branch).Include(r => r.User);
+            return View(rooms.ToList());
         }
 
-        // GET: Classes/Details/5
+        // GET: Rooms/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Class @class = db.Classes.Find(id);
-            if (@class == null)
+            Room room = db.Rooms.Find(id);
+            if (room == null)
             {
                 return HttpNotFound();
             }
-            return View(@class);
+            return View(room);
         }
 
-        // GET: Classes/Create
+        // GET: Rooms/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Classes/Create
+        // POST: Rooms/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser,Enable,Active")] Class @class)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser")] Room room)
         {
             if (ModelState.IsValid)
             {
-                @class.DateCreate = DateTime.Now;
-                @class.IdBranch = CheckUsers.idBranch();
-                @class.IdUser =int.Parse(CheckUsers.iduser());
-                db.Classes.Add(@class);
+                room.DateCreate = DateTime.Now;
+                room.IdUser =int.Parse(CheckUsers.iduser()) ;
+                room.IdBranch = CheckUsers.idBranch();
+                db.Rooms.Add(room);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", @class.IdBranch);
-            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", @class.IdUser);
-            return View(@class);
+            return View(room);
         }
 
-        // GET: Classes/Edit/5
+        // GET: Rooms/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Class @class = db.Classes.Find(id);
-            if (@class == null)
+            Room room = db.Rooms.Find(id);
+            if (room == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", @class.IdBranch);
-            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", @class.IdUser);
-            return View(@class);
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", room.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", room.IdUser);
+            return View(room);
         }
 
-        // POST: Classes/Edit/5
+        // POST: Rooms/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser,Enable,Active")] Class @class)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser")] Room room)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@class).State = EntityState.Modified;
+                db.Entry(room).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", @class.IdBranch);
-            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", @class.IdUser);
-            return View(@class);
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", room.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", room.IdUser);
+            return View(room);
         }
 
-        // GET: Classes/Delete/5
+        // GET: Rooms/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Class @class = db.Classes.Find(id);
-            if (@class == null)
+            Room room = db.Rooms.Find(id);
+            if (room == null)
             {
                 return HttpNotFound();
             }
-            return View(@class);
+            return View(room);
         }
 
-        // POST: Classes/Delete/5
+        // POST: Rooms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Class @class = db.Classes.Find(id);
-            db.Classes.Remove(@class);
+            Room room = db.Rooms.Find(id);
+            db.Rooms.Remove(room);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
