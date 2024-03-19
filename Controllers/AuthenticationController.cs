@@ -63,8 +63,20 @@ namespace SuperbrainManagement.Controllers
             }
             login["iduser"] = md5.Encrypt(user.Id.ToString());
             login["login"] = md5.Encrypt("Yvaphatco" + user.Id.ToString());
+            login["browser"] = Request.Browser.Browser;
+            login["IPAddress "] = Request.UserHostAddress;
             login.Expires = DateTime.Now.AddDays(2);
             Response.Cookies.Add(login);
+            LoginLog log = new LoginLog()
+            {
+                Browser = Request.Browser.Browser,
+                DateCreate = DateTime.Now,
+                IPAddress = Request.UserHostAddress,
+                IdUser = user.Id,
+                Devide = (Request.Browser.IsMobileDevice ?"Mobile" : "PC")
+            };
+            db.LoginLogs.Add(log);
+            db.SaveChanges();
             return Redirect("/");
         }
         public ActionResult Forgot()

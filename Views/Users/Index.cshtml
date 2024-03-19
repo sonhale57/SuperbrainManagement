@@ -183,7 +183,7 @@ $("#submitButton").click(function (e) {
             <th>CHỨC NĂNG</th>
         </tr>
     </thead>
-    <tbody id="tableBody" id="tableBody">
+    <tbody id="tableBody">
         @{
             int i = 1; // Bắt đầu với số thứ tự 1
         }
@@ -317,11 +317,13 @@ $("#submitButton").click(function (e) {
                 </div>  
             <div class="section ">  
                     <div class="col-sm-2"><label> Cấp Bậc:</label></div>
-                <div class="col-sm-10"> <select name="ctl10$lever" id="lever" class="form-control">
-            <option value="0">Nhân sự</option>
-            <option value="1">Quản lý</option>
-            <option selected="selected" value="2">Admin</option>
-            </select>  </div>
+                    <div class="col-sm-10"> 
+                     <select name="ctl10$lever" id="lever" class="form-control">
+                    <option value="0">Nhân sự</option>
+                    <option value="1">Quản lý</option>
+                    <option selected="selected" value="2">Admin</option>
+                    </select>  
+                </div>
                 </div>  
                 <div class="section ">  
                     <div class="col-sm-2">   <label> Ghi chú</label></div>
@@ -330,14 +332,10 @@ $("#submitButton").click(function (e) {
                 <div class="clear"></div> 
                 <span id="ctl10_msg" style="color:red"></span>
                 <div class="section">  
-              
-                    
-              
-
                 </div> 
 
             </form> 
-                </div>
+             </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

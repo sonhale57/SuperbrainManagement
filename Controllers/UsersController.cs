@@ -139,9 +139,6 @@ namespace SuperbrainManagement.Controllers
                     db.SaveChanges();
                 }
             }
-
-
-
             return View();
         }
 
