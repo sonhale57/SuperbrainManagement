@@ -111,6 +111,8 @@ namespace SuperbrainManagement.Models
         public int? Power { get; set; }
 
         public int? StatusStudy { get; set; }
+        public DateTime DateCreate { get; set; }
+        public int? IdUser { get; set; }
 
         public virtual Branch Branch { get; set; }
 
