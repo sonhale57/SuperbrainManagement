@@ -45,6 +45,8 @@ namespace SuperbrainManagement.Models
         [StringLength(250)]
         public string Description { get; set; }
 
+        [StringLength(50)]
+        public string Code { get; set; }
         public int? IdStudent { get; set; }
 
         public int? IdCoupon { get; set; }
