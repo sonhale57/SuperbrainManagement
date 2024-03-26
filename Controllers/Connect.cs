@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -46,6 +47,24 @@ namespace SuperbrainManagement.Controllers
             }
 
             return data;
+        }
+        public static DataTable SelectAll(string query)
+        {
+            DataTable dataTable = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                dataTable.Load(reader); // Load data directly into DataTable
+
+                reader.Close();
+            }
+
+            return dataTable;
         }
 
         public static T SelectSingle<T>(string query) where T : new()

@@ -5,73 +5,72 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
- <div class="row wrapper">
-     <div class="col-sm-6">
-         <div class="input-group">
-             <input type="text" id="searchtxt" name="searchtxt" class="input-sm form-control" placeholder="Tên">
-             <span class="input-group-btn" >
-                 <a style="height: 40px;     background-color: blue;" class="btn btn-sm btn-warning" href="javascript:load_data()" id="search">
-                     Tìm kiếm
-                 </a>
-                     <button style="height: 40px;     background-color: blue;" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                      Thêm mới
-                   </button>
-             </span>
-             <span id="statusloading" style="position:absolute"></span>
-         </div>
-     </div>
- </div>
-<table class="table table-striped">
 
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sex)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th></th>
-    </tr>
+<label style="color: black; font-size: medium;font-weight: bold;padding-bottom:10px;">QUẢN LÝ HỌC VIÊN</label>
+<div class="navbar navbar-expand-lg">
+    <div class="" style="display: flex;justify-content: space-between;flex: 10px;">
+        <div class="form-group has-search" style="display: flex;">
+            <span class="fa fa-search form-control-feedback" style="z-index: 1;position: absolute;margin-top: 12px;margin-left: 10px;"></span>
+            <input type="text" class="form-control" placeholder="Search" style="" id="searchtxt" name="searchtxt">
+            <button style="margin-left:3px;" class="btn btn-primary">Search</button>
+        </div>
+        <div>
+            <button class="btn btn-light" type="submit"><span class="fa fa-filter" style="padding-right:5px;"></span>Filter</button>
+            <button class="btn btn-primary" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalLong"><span class="fa fa-plus" style="padding-right:5px;"></span>Add New</button>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-     
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sex)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })|
-            <a href="/registration/Create/@item.Id" class="btn btn-sm btn-success">Đăng ký</a>
-        </td>
-    </tr>
-}
+    </div>
+</div>
+<div>
+    <table class="table table-bordered table-hover ">
 
-</table>
+        <thead class="rounded-top table-light">
+            <tr>
+                <th>MÃ HV</th>
+                <th>HỌ TÊN</th>
+                <th>EMAIL</th>
+                <th>SDT</th>
+                <tH>NGÀY TẠO</tH>
+           
+                <th>CHỨC NĂNG</th>
+            </tr>
+        </thead>
+        <tbody>
+    
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <th>@item.Code</th>
+                    <th>@item.Name</th>
+                    <th>@item.Email</th>
+                    <th>@item.Phone</th>
+                  
+                    <tH>@item.DateCreate</tH>
+                    <th><a href="@Url.Action("AddCourseProgramOfStudents","Students",new {IdStudent = item.Id})" class="btn btn-primary">Đăng ký</a></th>
+
+                </tr>
+            }
+        </tbody>
+
+
+
+    </table>
+
+</div>
+<div class="navbar">
+    <div>
+        <button style="  border: none;  padding-right: 5px; padding-left: 5px;border-radius: 3px;">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div style="">
+        <label style="padding: 10px;">1</label><label style=" padding: 10px;background-color: lightgrey;border-radius: 3px;">2</label>
+        <label style="padding: 5px;">...</label>
+        <label style="padding: 10px;">3</label>
+        <label style=" padding: 10px;">4</label>
+    </div>
+    <div>
+        <button style="  border: none;  padding-right: 5px; padding-left: 5px;border-radius: 3px;"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+    </div>
+</div>
