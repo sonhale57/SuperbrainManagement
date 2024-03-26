@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
@@ -15,10 +17,51 @@ namespace SuperbrainManagement.Controllers
         private ModelDbContext db = new ModelDbContext();
 
         // GET: Branches
-        public ActionResult Index()
+        
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
             var branches = db.Branches.Include(b => b.BranchGroup);
-            return View(branches.ToList());
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                branches = branches.Where(x => x.Name.Contains(searchString) || x.Code.Contains(searchString)|| x.Phone.Contains(searchString)|| x.CompanyName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    branches = branches.OrderByDescending(s => s.Name);
+                    break;
+                case "date":
+                    branches = branches.OrderBy(s => s.Id);
+                    break;
+                case "date_desc":
+                    branches = branches.OrderByDescending(s => s.Id);
+                    break;
+                default:
+                    branches = branches.OrderBy(s => s.Name);
+                    break;
+            }
+            int pageSize = 20; 
+            int pageNumber = (page ?? 1); 
+            var pagedData = branches.ToPagedList(pageNumber, pageSize);
+            var pagedListRenderOptions = new PagedListRenderOptions();
+            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
+            {
+                liTag.AddCssClass("page-item");
+                aTag.AddCssClass("page-link");
+                return liTag;
+            };
+            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
+            return View(pagedData);
         }
 
         // GET: Branches/Details/5
