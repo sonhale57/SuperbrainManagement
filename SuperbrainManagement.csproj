@@ -836,6 +836,7 @@
     <Content Include="Views\ProductCourses\Details.cshtml" />
     <Content Include="Views\ProductCourses\Edit.cshtml" />
     <Content Include="Views\ProductCourses\Index.cshtml" />
+    <Content Include="Views\Students\RegistrationPrints.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
