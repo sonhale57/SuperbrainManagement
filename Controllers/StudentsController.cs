@@ -35,10 +35,10 @@ namespace SuperbrainManagement.Controllers
         public ActionResult RegistrationPrints(string code,int? idstudent,int? totalamount)
         {
             Student student = Connect.SelectSingle<Student>("select * from Student where Id ='" + idstudent + "'");
-            //Session["code"] = code;
-            //Session["NameStudent"] = student.Name;
-            //Session["sdt"] = student.Phone;
-            //Session["totalamount"] = totalamount;
+            Session["code"] = code;
+            Session["NameStudent"] = student.Name;
+            Session["sdt"] = student.Phone;
+            Session["totalamount"] = totalamount;
             return View();
         }
         [HttpPost] // Use POST for actions that modify data
