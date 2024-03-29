@@ -13,6 +13,7 @@ namespace SuperbrainManagement.Controllers
     {
         public static string connectionString = ConfigurationManager.ConnectionStrings["ModelDbContext"].ConnectionString;
         public Connect() { }
+        /*
         public DataSet ShowAll(String txt)
         {
             MySqlConnection connection;
@@ -53,7 +54,7 @@ namespace SuperbrainManagement.Controllers
             }
             return ds;
         }
-
+        */
         public static List<T> Select<T>(string query) where T : new()
         {
             List<T> data = new List<T>();

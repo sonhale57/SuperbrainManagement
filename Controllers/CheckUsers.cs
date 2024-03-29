@@ -48,7 +48,7 @@ namespace SuperbrainManagement.Controllers
         /// Lấy IdUser đăng nhập
         /// </summary>
         /// <returns></returns>
-        public static int? idBranch()
+        public static string idBranch()
         {
             try
             {
@@ -56,15 +56,60 @@ namespace SuperbrainManagement.Controllers
                 string idUser = md5.Decrypt(System.Web.HttpContext.Current.Request.Cookies["check"]["iduser"].ToString());
                 if(idUser == "")
                 {
-                    return 0;
+                    return "0";
                 }else
                 {
                     ModelDbContext db = new ModelDbContext();
                     var us = db.Users.Find(int.Parse(idUser));
-                    return us.IdBranch;
+                    return us.IdBranch.ToString();
                 }    
             }
-            catch { return 0; }
+            catch { return "0"; }
+        }
+        public static bool CheckHQ()
+        {
+            try
+            {
+                MD5Hash md5 = new MD5Hash();
+                string idUser = md5.Decrypt(System.Web.HttpContext.Current.Request.Cookies["check"]["iduser"].ToString());
+                if (idUser == "")
+                {
+                    return false;
+                }
+                else
+                {
+                    ModelDbContext db = new ModelDbContext();
+                    var us = db.Users.Find(int.Parse(idUser));
+                    if (us.Branch.Code.ToLower() == "hq")
+                    { 
+                        return true; 
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch { return false; }
+        }
+        public static string CodeBranch()
+        {
+            try
+            {
+                MD5Hash md5 = new MD5Hash();
+                string idUser = md5.Decrypt(System.Web.HttpContext.Current.Request.Cookies["check"]["iduser"].ToString());
+                if (idUser == "")
+                {
+                    return "";
+                }
+                else
+                {
+                    ModelDbContext db = new ModelDbContext();
+                    var us = db.Users.Find(int.Parse(idUser));
+                    return us.Branch.Code;
+                }
+            }
+            catch { return ""; }
         }
         /// <summary>
         /// Code check phân quyền của user

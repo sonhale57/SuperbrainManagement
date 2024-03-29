@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PagedList.Mvc;
 using PagedList;
 using SuperbrainManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SuperbrainManagement.Controllers
 {
@@ -19,6 +20,17 @@ namespace SuperbrainManagement.Controllers
         // GET: VacationSchedules
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page,string idBranch,string currentIdBranch)
         {
+            var branches = db.Branches.ToList();
+            int idbranch = int.Parse(CheckUsers.idBranch());
+            if (!CheckUsers.CheckHQ())
+            {
+                branches = db.Branches.Where(x => x.Id == idbranch).ToList();
+            }
+            if (string.IsNullOrEmpty(idBranch))
+            {
+                idBranch = branches.First().Id.ToString();
+            }
+            ViewBag.IdBranch = new SelectList(branches, "Id", "Name", idBranch);
 
             if (searchString != null)
             {
@@ -27,18 +39,18 @@ namespace SuperbrainManagement.Controllers
             else
             {
                 searchString = currentFilter;
-                idBranch = currentIdBranch;
             }
             ViewBag.CurrentFilter = searchString;
+            
             var vacation = db.VacationSchedules.ToList();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                vacation = vacation.Where(x => x.Description.ToLower().Contains(searchString.ToLower())).ToList();
-            }
             if (!string.IsNullOrEmpty(idBranch))
             {
                 vacation = vacation.Where(x => x.IdBranch==int.Parse(idBranch)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                vacation = vacation.Where(x => x.Description.ToLower().Contains(searchString.ToLower())).ToList();
             }
             switch (sortOrder)
             {
@@ -68,7 +80,7 @@ namespace SuperbrainManagement.Controllers
                 aTag.AddCssClass("page-link");
                 return liTag;
             };
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Name",currentIdBranch);
+            
             ViewBag.PagedListRenderOptions = pagedListRenderOptions;
             return View(pagedData);
         }
@@ -105,7 +117,7 @@ namespace SuperbrainManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                vacationSchedule.IdBranch = CheckUsers.idBranch();
+                vacationSchedule.IdBranch = int.Parse(CheckUsers.idBranch());
                 vacationSchedule.IdUser =int.Parse(CheckUsers.iduser());
                 vacationSchedule.DateCreate = DateTime.Now;
                 db.VacationSchedules.Add(vacationSchedule);
@@ -144,7 +156,7 @@ namespace SuperbrainManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(vacationSchedule).State = EntityState.Modified;
+                db.Entry(vacationSchedule).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
