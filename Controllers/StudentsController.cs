@@ -24,22 +24,35 @@ namespace SuperbrainManagement.Controllers
             var students = db.Students.Include(s => s.Branch).Include(s => s.MKTCampaign);
             return View(students.ToList());
         }
-       
+
         public ActionResult AddCourseProgramOfStudents(int IdStudent)
         {
-            Student student = Connect.SelectSingle<Student>("select * from Student where Id='"+IdStudent+"'");
+            Student student = Connect.SelectSingle<Student>("select * from Student where Id='" + IdStudent + "'");
             Session["infoUser"] = student;
-            return View(student);  
+            return View(student);
         }
-    
-        public ActionResult RegistrationPrints(string code,int? idstudent,int? totalamount)
+       
+        public ActionResult RegistrationPrints()
         {
-            Student student = Connect.SelectSingle<Student>("select * from Student where Id ='" + idstudent + "'");
-            Session["code"] = code;
-            Session["NameStudent"] = student.Name;
-            Session["sdt"] = student.Phone;
-            Session["totalamount"] = totalamount;
-            return View();
+            Student student = Session["infoUser"] as Student;
+            int idregistration = Convert.ToInt32(Session["IdRegistration"]);
+           
+            Registration registration = Connect.SelectSingle<Registration>("Select * from Registration where Id = '" + idregistration + "'");
+            DataTable datatable = Connect.SelectAll("select course.Name,course.Price,rescourse.TotalAmount from Registration  res\r\ninner join RegistrationCourse rescourse\r\non rescourse.IdRegistration = res.Id\r\ninner join Course course \r\non course.Id = rescourse.IdCourse\r\nwhere res.Id = '" + idregistration+"'");
+            var model = new
+            {
+                DataTableLoad = datatable
+            };
+            if (student != null)
+            {
+                Session["Name"] = student.Name;
+                Session["code"] = registration.Code;
+                Session["Datecreate"] = registration.DateCreate;
+                Session["totalamount"] = registration.TotalAmount;
+                Session["datatable"] = datatable;
+            }
+          
+            return View(model);
         }
         [HttpPost] // Use POST for actions that modify data
         public ActionResult Deletes(int IdCourse, int IdRegistration)
@@ -202,6 +215,7 @@ namespace SuperbrainManagement.Controllers
                 db.Registrations.Add(NewRegistration);
                 db.SaveChanges();
                 registration = NewRegistration;
+                Session["IdRegistration"] = registration.Id;
             }
             //Check type luồng Product,Course,Order
             switch (type)

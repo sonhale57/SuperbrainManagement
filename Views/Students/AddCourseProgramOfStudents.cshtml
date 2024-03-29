@@ -6,12 +6,15 @@
 @section scripts {
     <script>
         function prints() {
-
+      
+       var totalamount = $('#totalamount').val();
+        var code = $('#Bill').val();
             $.ajax({
-                url: '@Url.Action("","Students")',
+                url: '@Url.Action("RegistrationPrints","Students")',
                 type: 'POST',
                 data: {
-
+                  IdStudent: idstudent,
+                  totalamount: totalamount
                 },
                 success: function () {
 
@@ -442,7 +445,7 @@
             thanh toán:
         </td>
         <td style="text-align:right;">
-            <b class="total">0</b>
+            <b class="total" id="totalamount">0</b>
         </td>
         <td></td>
     </tr>

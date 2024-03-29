@@ -2,15 +2,7 @@
 
 
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title> Registration Form</title>
-    <style>
-        
-    </style>
 
-</head>
 <body id="bodyprint" style="background-color: #a8cf45;  background-repeat: repeat-x; background-position: bottom;width:100%;font-size:10pt;height:100%">
     <html>
 
@@ -40,11 +32,32 @@
                     <div style=" font-size:12pt;text-align:center">
                         [ngayphieuthu]
                     </div>
+                    <table style="margin-left:5px;margin-right:5px;" class="table table-hover table-rounded table-bordered">
+                      <tr class="table-primary">
+                            <th>STT</th>
+                            <th>Tên</th>
+                            <th>giá tiền</th>
+                            <th>thành tiền</th>
+                      </tr>
+                            @{
+                             
 
+                               DataTable datatbaleload = Session["datatable"] as DataTable;
+                            }
+                        @foreach(DataRow row in datatbaleload.Rows)
+                        {
+                            <tr>
+                                <td>@row["Name"]</td>
+                                <td>@row["Price"]</td>
+                                <td>@row["TotalAmount"]</td>
+                            </tr>
+                        }
+                       
+                    </table>
                     <div class="text_left_5" style="border:1px solid #ff44a2; padding:5px;margin-left:10px;margin-bottom:10px;margin-right:10px;height:60px">
                         <div style=" float:left;max-width:60%">
                             Tên học viên:
-                            @Session["NameStudent"]<div style="width:150px; ">
+                            @Session["Name"]<div style="width:150px; ">
                                 ĐT:
                                 @Session["sdt"]
                             </div>
@@ -88,7 +101,7 @@
                             <tr>
                                 <td colspan="3" rowspan="4" style="text-align:left;border: 1px solid #ff44a2;width:50%">  Viết bằng chữ:<br />&nbsp;<b>ba triệu ba trăm tám mươi nghìn đồng chẵn</b></td>
                                 <td style="text-align:left;border: 1px solid #ff44a2;">Tổng tiền:</td>
-                                <td colspan="2" style="border: 1px solid #ff44a2;text-align:right"> 3,380,000</td>
+                                <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">@Session["totalamount"]</td>
                             </tr>
                             <tr>
                                 <td style="text-align:left;border: 1px solid #ff44a2;">Chiết khấu:</td>
@@ -145,7 +158,7 @@
     </div>
 
 </html>
-<html>
+
 
 <div class="page1" style="font-size: 10pt; background-color: #fff;  position:relative;width:95% ;margin: 10px 10px 10px 10px; height:790px;overflow:hidden;position:relative;font-family:'Times New Roman' ">
     <div style='height:20px;background-color: #a8cf45;width:100%'></div>
@@ -277,8 +290,7 @@
 
 </div>
 
-</html>
-<html>
+
 
 <div class="page1" style="font-size: 10pt; background-color: #fff;  position:relative;width:95% ;margin: 10px 10px 10px 10px; height:790px;overflow:hidden;position:relative;font-family:'Times New Roman' ">
     <div style='height:20px;background-color: #a8cf45;width:100%'></div>
@@ -410,14 +422,13 @@
 
 </div>
 
-</html>
-</body>
+
 <div style="position:fixed;bottom:-10px;height:20px;overflow:hidden;left:0">
     <img src="img/bottom_bg.jpg" />
 </div>
  <script>
     window.print();
  </script>
-</html>
+
 
 
