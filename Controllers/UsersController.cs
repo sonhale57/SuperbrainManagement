@@ -164,8 +164,5 @@ namespace SuperbrainManagement.Controllers
                 return Json(false); // Trả về false nếu không tìm thấy người dùng với id tương ứng
             }
         }
-
-
-
     }
 }

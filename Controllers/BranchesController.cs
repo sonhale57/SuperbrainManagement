@@ -33,7 +33,7 @@ namespace SuperbrainManagement.Controllers
             var branches = db.Branches.Include(b => b.BranchGroup);
             if (!string.IsNullOrEmpty(searchString))
             {
-                branches = branches.Where(x => x.Name.Contains(searchString) || x.Code.Contains(searchString)|| x.Phone.Contains(searchString)|| x.CompanyName.Contains(searchString));
+                branches = branches.Where(x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Code.ToLower().Contains(searchString.ToLower()) || x.BranchGroup.Name.ToLower().Contains(searchString.ToLower()));
             }
             switch (sortOrder)
             {
@@ -45,6 +45,9 @@ namespace SuperbrainManagement.Controllers
                     break;
                 case "date_desc":
                     branches = branches.OrderByDescending(s => s.Id);
+                    break;
+                case "group":
+                    branches = branches.OrderBy(s => s.BranchGroup.Name);
                     break;
                 default:
                     branches = branches.OrderBy(s => s.Name);

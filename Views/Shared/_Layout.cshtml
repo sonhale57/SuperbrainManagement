@@ -6,6 +6,7 @@
     <title>Superbrain Management Software</title>
     <link rel="shortcut icon" type="image/png" href="~/assets/images/logos/icon web.png" />
     <link rel="stylesheet" href="~/assets/css/styles.css" />
+    <link href="~/assets/css/select2.css" rel="stylesheet" />
     <script src="~/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/assets/js/main.js"></script>
 </head>
@@ -228,9 +229,15 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/signalR")
+    <script src="~/assets/js/select2.min.js"></script>
     <script src="~/assets/js/sidebarmenu.js" asp-append-version="true"></script>
     <script src="~/assets/js/app.min.js" asp-append-version="true"></script>
     <script src="~/assets/libs/simplebar/dist/simplebar.js" asp-append-version="true"></script>
-    @RenderSection("scripts",required:false)
+    @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
 </body>
 </html>

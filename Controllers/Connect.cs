@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,6 +13,47 @@ namespace SuperbrainManagement.Controllers
     {
         public static string connectionString = ConfigurationManager.ConnectionStrings["ModelDbContext"].ConnectionString;
         public Connect() { }
+        public DataSet ShowAll(String txt)
+        {
+            MySqlConnection connection;
+            MySqlCommand cmd;
+            MySqlDataAdapter da;
+
+            connection = null;
+            cmd = null;
+            DataSet ds = new DataSet();
+            da = new MySqlDataAdapter();
+
+            try
+            {
+                cmd = new MySqlCommand(txt);
+                cmd.CommandType = CommandType.Text;
+
+                da.SelectCommand = (MySqlCommand)cmd;
+
+                connection = new MySqlConnection(connectionString);
+                cmd.Connection = connection;
+                connection.Open();
+
+                // fill the dataset
+                da.Fill(ds);
+            }
+            catch
+            {
+                throw;  // exception occurred here
+            }
+            finally
+            {
+                if (da != null)
+                    da.Dispose();
+                if (cmd != null)
+                    cmd.Dispose();
+                // implicitly calls close()
+                connection.Dispose();
+            }
+            return ds;
+        }
+
         public static List<T> Select<T>(string query) where T : new()
         {
             List<T> data = new List<T>();

@@ -12,13 +12,14 @@ using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
 {
-    public class BranchGroupsController : Controller
+    public class VacationSchedulesController : Controller
     {
         private ModelDbContext db = new ModelDbContext();
 
-        // GET: BranchGroups
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        // GET: VacationSchedules
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page,string idBranch,string currentIdBranch)
         {
+
             if (searchString != null)
             {
                 page = 1;
@@ -26,35 +27,39 @@ namespace SuperbrainManagement.Controllers
             else
             {
                 searchString = currentFilter;
+                idBranch = currentIdBranch;
             }
             ViewBag.CurrentFilter = searchString;
-            var branchgroups = db.BranchGroups.ToList();
+            var vacation = db.VacationSchedules.ToList();
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                branchgroups = branchgroups.Where(x => x.Name.ToLower().Contains(searchString.ToLower()) || x.NameInvestor.ToLower().Contains(searchString.ToLower())).ToList();
+                vacation = vacation.Where(x => x.Description.ToLower().Contains(searchString.ToLower())).ToList();
             }
-
+            if (!string.IsNullOrEmpty(idBranch))
+            {
+                vacation = vacation.Where(x => x.IdBranch==int.Parse(idBranch)).ToList();
+            }
             switch (sortOrder)
             {
                 case "name_desc":
-                    branchgroups = branchgroups.OrderByDescending(s => s.Name).ToList();
+                    vacation = vacation.OrderByDescending(s => s.Description).ToList();
                     break;
                 case "date":
-                    branchgroups = branchgroups.OrderBy(s => s.Id).ToList();
+                    vacation = vacation.OrderBy(s => s.Id).ToList();
                     break;
-                case "date_desc":
-                    branchgroups = branchgroups.OrderByDescending(s => s.Id).ToList();
+                case "name":
+                    vacation = vacation.OrderBy(s => s.Description).ToList();
                     break;
                 default:
-                    branchgroups = branchgroups.OrderBy(s => s.Name).ToList();
+                    vacation = vacation.OrderByDescending(s => s.Id).ToList();
                     break;
             }
             int pageSize = 20;
             int pageNumber = (page ?? 1);
-           
 
-            var pagedData = branchgroups.ToPagedList(pageNumber, pageSize);
+
+            var pagedData = vacation.ToPagedList(pageNumber, pageSize);
 
             var pagedListRenderOptions = new PagedListRenderOptions();
             pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
@@ -63,101 +68,113 @@ namespace SuperbrainManagement.Controllers
                 aTag.AddCssClass("page-link");
                 return liTag;
             };
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Name",currentIdBranch);
             ViewBag.PagedListRenderOptions = pagedListRenderOptions;
             return View(pagedData);
         }
-        // GET: BranchGroups/Details/5
+
+        // GET: VacationSchedules/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BranchGroup branchGroup = db.BranchGroups.Find(id);
-            if (branchGroup == null)
+            VacationSchedule vacationSchedule = db.VacationSchedules.Find(id);
+            if (vacationSchedule == null)
             {
                 return HttpNotFound();
             }
-            return View(branchGroup);
+            return View(vacationSchedule);
         }
 
-        // GET: BranchGroups/Create
+        // GET: VacationSchedules/Create
         public ActionResult Create()
         {
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Name");
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name");
             return View();
         }
 
-        // POST: BranchGroups/Create
+        // POST: VacationSchedules/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Enable,DateCreate,NameInvestor,PhoneInvestor,EmailInvestor")] BranchGroup branchGroup)
+        public ActionResult Create([Bind(Include = "Id,DateCreate,IdUser,IdBranch,Fromdate,Todate,Description")] VacationSchedule vacationSchedule)
         {
             if (ModelState.IsValid)
             {
-                branchGroup.DateCreate = DateTime.Now;
-                db.BranchGroups.Add(branchGroup);
+                vacationSchedule.IdBranch = CheckUsers.idBranch();
+                vacationSchedule.IdUser =int.Parse(CheckUsers.iduser());
+                vacationSchedule.DateCreate = DateTime.Now;
+                db.VacationSchedules.Add(vacationSchedule);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(branchGroup);
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Name", vacationSchedule.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", vacationSchedule.IdUser);
+            return View(vacationSchedule);
         }
 
-        // GET: BranchGroups/Edit/5
+        // GET: VacationSchedules/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BranchGroup branchGroup = db.BranchGroups.Find(id);
-            if (branchGroup == null)
+            VacationSchedule vacationSchedule = db.VacationSchedules.Find(id);
+            if (vacationSchedule == null)
             {
                 return HttpNotFound();
             }
-            return View(branchGroup);
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", vacationSchedule.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", vacationSchedule.IdUser);
+            return View(vacationSchedule);
         }
 
-        // POST: BranchGroups/Edit/5
+        // POST: VacationSchedules/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Enable,DateCreate,NameInvestor,PhoneInvestor,EmailInvestor")] BranchGroup branchGroup)
+        public ActionResult Edit([Bind(Include = "Id,DateCreate,IdUser,IdBranch,Fromdate,Todate,Description")] VacationSchedule vacationSchedule)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(branchGroup).State = EntityState.Modified;
+                db.Entry(vacationSchedule).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(branchGroup);
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", vacationSchedule.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", vacationSchedule.IdUser);
+            return View(vacationSchedule);
         }
 
-        // GET: BranchGroups/Delete/5
+        // GET: VacationSchedules/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BranchGroup branchGroup = db.BranchGroups.Find(id);
-            if (branchGroup == null)
+            VacationSchedule vacationSchedule = db.VacationSchedules.Find(id);
+            if (vacationSchedule == null)
             {
                 return HttpNotFound();
             }
-            return View(branchGroup);
+            return View(vacationSchedule);
         }
 
-        // POST: BranchGroups/Delete/5
+        // POST: VacationSchedules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BranchGroup branchGroup = db.BranchGroups.Find(id);
-            db.BranchGroups.Remove(branchGroup);
+            VacationSchedule vacationSchedule = db.VacationSchedules.Find(id);
+            db.VacationSchedules.Remove(vacationSchedule);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

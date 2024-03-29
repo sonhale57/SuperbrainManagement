@@ -9,7 +9,6 @@ namespace SuperbrainManagement.Models
     [Table("LoginLog")]
     public partial class LoginLog
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int? IdUser { get; set; }

@@ -20,28 +20,30 @@
                 <i class="ti ti-arrows-sort"></i> Sắp xếp theo
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "name", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-sort-a-z"></i> Tên A-Z</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "group", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-layers-subtract"></i> Cụm cơ sở</a></li>
                 <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "name", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-sort-a-z"></i> Tên A-Z</a></li>
                 <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "name_desc", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-sort-z-a"></i> Tên Z-A</a></li>
-                <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "date", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-sort-ascending"></i> Mới nhất</a></li>
-                <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "date_desc", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-sort-descending"></i> Cũ nhất</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "date", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-sort-ascending"></i> Cũ nhất</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("Index", new { sortOrder = "date_desc", currentFilter = ViewBag.CurrentFilter, searchString = ViewBag.CurrentFilter })"><i class="ti ti-sort-descending"></i> Mới nhất</a></li>
             </ul>
         </div>
         <a href="" class="btn btn-md btn-outline-success"><i class="ti ti-upload"></i></a>
         <a href="" class="btn btn-md btn-outline-danger"><i class="ti ti-download"></i></a>
         <a href="/branches/create" class="btn btn-md btn-success ms-0"><i class="ti ti-circle-plus"></i> Thêm mới</a>
+        <a href="/branchgroups" class="btn btn-md btn-primary ms-0"><i class="ti ti-layers-subtract"></i> Cụm cơ sở</a>
     </div>
 </div>
 <table class="table fs-3">
     <thead class="bg-success text-white rounded-1">
         <tr>
             <th class="text-center">STT</th>
+            <th>Cụm cơ sở</th>
             <th class="text-center">Mã</th>
-            <th>Tên</th>
-            <th> ĐT</th>
-            <th> Email</th>
+            <th>Tên cơ sở</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ email</th>
             <th>Tình trạng</th>
-            <th></th>
+            <th class="text-center">Thao tác</th>
         </tr>
     </thead>
 
@@ -50,6 +52,9 @@
         <tr>
             <td class="text-center">
                 @stt
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchGroup.Name)
             </td>
             <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Code)
@@ -79,7 +84,7 @@
                     </label>
                 }
             </td>
-            <td>
+            <td class="text-center">
                 <a href="/branches/edit/@item.Id" class="me-1"><i class="ti ti-edit text-primary"></i></a>
                 <a href="/branches/delete/@item.Id" class="me-1"><i class="ti ti-trash text-danger"></i></a>
                 <a class="text-warning" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
