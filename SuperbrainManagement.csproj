@@ -274,6 +274,14 @@
     <Compile Include="Controllers\MD5Hash.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\ProgramsController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\ProductCoursesController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\ProductPromotionsController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\ProductsController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\RegistrationCoursesController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\RegistrationOthersController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\RegistrationProductsController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\RegistrationsController.cs" />
+    <Compile Include="Controllers\RegistrationStudent\RevenueReferencesController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\Sendmail.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -797,39 +805,6 @@
     <Content Include="Views\Rooms\Details.cshtml" />
     <Content Include="Views\Rooms\Edit.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
-    <Content Include="Views\VacationSchedules\Create.cshtml" />
-    <Content Include="Views\VacationSchedules\Delete.cshtml" />
-    <Content Include="Views\VacationSchedules\Details.cshtml" />
-    <Content Include="Views\VacationSchedules\Edit.cshtml" />
-    <Content Include="Views\VacationSchedules\Index.cshtml" />
-    <Content Include="Views\Logs\Create.cshtml" />
-    <Content Include="Views\Logs\Delete.cshtml" />
-    <Content Include="Views\Logs\Details.cshtml" />
-    <Content Include="Views\Logs\Edit.cshtml" />
-    <Content Include="Views\Logs\Index.cshtml" />
-    <Content Include="Views\Feeds\Create.cshtml" />
-    <Content Include="Views\Feeds\Delete.cshtml" />
-    <Content Include="Views\Feeds\Details.cshtml" />
-    <Content Include="Views\Feeds\Edit.cshtml" />
-    <Content Include="Views\Feeds\Index.cshtml" />
-    <Content Include="Views\Configurations\Create.cshtml" />
-    <Content Include="Views\Configurations\Delete.cshtml" />
-    <Content Include="Views\Configurations\Details.cshtml" />
-    <Content Include="Views\Configurations\Edit.cshtml" />
-    <Content Include="Views\Configurations\Index.cshtml" />
-    <Content Include="Views\Notifications\Create.cshtml" />
-    <Content Include="Views\Notifications\Delete.cshtml" />
-    <Content Include="Views\Notifications\Details.cshtml" />
-    <Content Include="Views\Notifications\Edit.cshtml" />
-    <Content Include="Views\Notifications\Index.cshtml" />
-    <Content Include="Views\DataSuggests\Create.cshtml" />
-    <Content Include="Views\DataSuggests\Delete.cshtml" />
-    <Content Include="Views\DataSuggests\Details.cshtml" />
-    <Content Include="Views\DataSuggests\Edit.cshtml" />
-    <Content Include="Views\DataSuggests\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
