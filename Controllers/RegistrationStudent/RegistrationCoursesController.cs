@@ -15,7 +15,7 @@ namespace SuperbrainManagement.Controllers.RegistrationStudent
     {
         private ModelDbContext db = new ModelDbContext();
 
-        // GET: RegistrationCourses
+        // GET: RegistrationCourses s
         public async Task<ActionResult> Index()
         {
             var registrationCourses = db.RegistrationCourses.Include(r => r.Course).Include(r => r.Registration);

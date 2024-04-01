@@ -14,7 +14,7 @@ namespace SuperbrainManagement.Controllers.RegistrationStudent
     public class RegistrationProductsController : Controller
     {
         private ModelDbContext db = new ModelDbContext();
-
+         
         // GET: RegistrationProducts
         public async Task<ActionResult> Index()
         {

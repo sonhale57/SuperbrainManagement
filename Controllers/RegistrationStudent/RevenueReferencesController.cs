@@ -15,7 +15,7 @@ namespace SuperbrainManagement.Controllers.RegistrationStudent
     {
         private ModelDbContext db = new ModelDbContext();
 
-        // GET: RevenueReferences
+        // GET: RevenueReferences s
         public async Task<ActionResult> Index()
         {
             var revenueReferences = db.RevenueReferences.Include(r => r.Branch).Include(r => r.User);
