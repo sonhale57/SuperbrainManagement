@@ -19356,6 +19356,7 @@ textarea.form-control-lg {
 }
 
     .body-wrapper > .container-fluid, .body-wrapper > .container-lg, .body-wrapper > .container-md, .body-wrapper > .container-sm, .body-wrapper > .container-xl, .body-wrapper > .container-xxl {
+        max-width: 1200px;
         margin: 0 auto;
         padding: 24px;
         -webkit-transition: 0.2s ease-in;

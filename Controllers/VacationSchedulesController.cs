@@ -18,7 +18,7 @@ namespace SuperbrainManagement.Controllers
         private ModelDbContext db = new ModelDbContext();
 
         // GET: VacationSchedules
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page,string idBranch)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page,string idBranch,string currentIdBranch)
         {
             var branches = db.Branches.ToList();
             int idbranch = int.Parse(CheckUsers.idBranch());

@@ -6,8 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using PagedList.Mvc;
-using PagedList;
 using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
@@ -17,51 +15,10 @@ namespace SuperbrainManagement.Controllers
         private ModelDbContext db = new ModelDbContext();
 
         // GET: Feeds
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index()
         {
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            ViewBag.CurrentFilter = searchString;
-
-            var feeds = db.Feeds.ToList();
-            
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                feeds = feeds.Where(x => x.Name.ToLower().Contains(searchString.ToLower())).ToList();
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    feeds = feeds.OrderByDescending(s => s.Name).ToList();
-                    break;
-                case "date":
-                    feeds = feeds.OrderBy(s => s.Id).ToList();
-                    break;
-                case "date_desc":
-                    feeds = feeds.OrderByDescending(s => s.Id).ToList();
-                    break;
-                default:
-                    feeds = feeds.OrderBy(s => s.Name).ToList();
-                    break;
-            }
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            var pagedData = feeds.ToPagedList(pageNumber, pageSize);
-            var pagedListRenderOptions = new PagedListRenderOptions();
-            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
-            {
-                liTag.AddCssClass("page-item");
-                aTag.AddCssClass("page-link");
-                return liTag;
-            };
-            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
-            return View(pagedData);
+            var feeds = db.Feeds.Include(f => f.User);
+            return View(feeds.ToList());
         }
 
         // GET: Feeds/Details/5
