@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
 using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
@@ -15,11 +17,88 @@ namespace SuperbrainManagement.Controllers
         private ModelDbContext db = new ModelDbContext();
 
         // GET: Classes
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string idBranch)
         {
-            return View(db.Classes.ToList());
+            var branches = db.Branches.ToList();
+            int idbranch = int.Parse(CheckUsers.idBranch());
+            if (!CheckUsers.CheckHQ())
+            {
+                branches = db.Branches.Where(x => x.Id == idbranch).ToList();
+            }
+            if (string.IsNullOrEmpty(idBranch))
+            {
+                idBranch = branches.First().Id.ToString();
+            }
+            ViewBag.IdBranch = new SelectList(branches, "Id", "Name", idBranch);
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            var classes = db.Classes.ToList();
+
+            if (!string.IsNullOrEmpty(idBranch))
+            {
+                classes = classes.Where(x => x.IdBranch == int.Parse(idBranch)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                classes = classes.Where(x => x.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    classes = classes.OrderByDescending(s => s.Name).ToList();
+                    break;
+                case "date":
+                    classes = classes.OrderBy(s => s.Id).ToList();
+                    break;
+                case "name":
+                    classes = classes.OrderBy(s => s.Name).ToList();
+                    break;
+                default:
+                    classes = classes.OrderByDescending(s => s.Id).ToList();
+                    break;
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+
+
+            var pagedData = classes.ToPagedList(pageNumber, pageSize);
+
+            var pagedListRenderOptions = new PagedListRenderOptions();
+            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
+            {
+                liTag.AddCssClass("page-item");
+                aTag.AddCssClass("page-link");
+                return liTag;
+            };
+
+            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
+            return View(pagedData);
         }
 
+        [HttpPost]
+        public ActionResult UpdateStatus(int id, int status)
+        {
+            Class classes = db.Classes.Find(id);
+            if (classes != null)
+            {
+                classes.Active = status == 1;
+                db.SaveChanges();
+                return Json(classes.Active);
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
         // GET: Classes/Details/5
         public ActionResult Details(int? id)
         {

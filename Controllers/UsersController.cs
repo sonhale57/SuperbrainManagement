@@ -9,6 +9,8 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using PagedList.Mvc;
+using PagedList;
 using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
@@ -45,6 +47,73 @@ namespace SuperbrainManagement.Controllers
             public int IsEdit { get; set; }
         }
 
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string idBranch)
+        {
+            var branches = db.Branches.ToList();
+            int idbranch = int.Parse(CheckUsers.idBranch());
+            if (!CheckUsers.CheckHQ())
+            {
+                branches = db.Branches.Where(x => x.Id == idbranch).ToList();
+            }
+            if (string.IsNullOrEmpty(idBranch))
+            {
+                idBranch = branches.First().Id.ToString();
+            }
+            ViewBag.IdBranch = new SelectList(branches, "Id", "Name", idBranch);
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            var users = db.Users.ToList();
+
+            if (!string.IsNullOrEmpty(idBranch))
+            {
+                users = users.Where(x => x.IdBranch == int.Parse(idBranch)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Username.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(s => s.Name).ToList();
+                    break;
+                case "date":
+                    users = users.OrderBy(s => s.Id).ToList();
+                    break;
+                case "name":
+                    users = users.OrderBy(s => s.Name).ToList();
+                    break;
+                default:
+                    users = users.OrderByDescending(s => s.Id).ToList();
+                    break;
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+
+
+            var pagedData = users.ToPagedList(pageNumber, pageSize);
+
+            var pagedListRenderOptions = new PagedListRenderOptions();
+            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
+            {
+                liTag.AddCssClass("page-item");
+                aTag.AddCssClass("page-link");
+                return liTag;
+            };
+
+            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
+            return View(pagedData);
+        }
+
         // GET LIST PERMISSION
         [HttpGet]
         public ActionResult GetDataPermissionWithid(int idInput)
@@ -77,14 +146,10 @@ namespace SuperbrainManagement.Controllers
                     db.UserPermissions.Add(newPermission);
                     db.SaveChanges();
                     // Submit changes to persist the new record to the database
-
                 }
                 Model = LoadDataPermission(idInput);
             }
             // Sử dụng model ở đây (ví dụ: lưu vào session, truyền vào view, ...)
-
-
-
             TempData["data"] = Model;
             return Json(Model, JsonRequestBehavior.AllowGet);
         }
@@ -135,21 +200,14 @@ namespace SuperbrainManagement.Controllers
                     userPermissionUpdate.IsDelete = userPermission.IsDelete == 1 ? true : false;
                     userPermissionUpdate.IsCreate = userPermission.IsCreate == 1 ? true : false;
                     userPermissionUpdate.IsEdit = userPermission.IsEdit == 1 ? true : false;
-        
                     db.SaveChanges();
                 }
             }
             return View();
         }
 
-
         // GET: Users
-        public ActionResult Index(string searching)
-        {
-           
-            return View(db.Users.Where(x=>x.Username.Contains(searching) || searching == null).ToList());
-        }
-        [HttpPost]
+       [HttpPost]
         public ActionResult updateStatus(int id, int status)
         {
             User user = db.Users.Find(id);
@@ -161,7 +219,7 @@ namespace SuperbrainManagement.Controllers
             }
             else
             {
-                return Json(false); // Trả về false nếu không tìm thấy người dùng với id tương ứng
+                return Json(false); 
             }
         }
     }

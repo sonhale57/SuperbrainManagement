@@ -1,0 +1,434 @@
+﻿
+
+
+
+
+<body id="bodyprint" style="background-color: #a8cf45;  background-repeat: repeat-x; background-position: bottom;width:100%;font-size:10pt;height:100%">
+    <html>
+
+    <div class="page1" style="font-size: 10pt; background-color: #fff;  position:relative;width:95% ;margin: 10px 10px 10px 10px; height:790px;overflow:hidden;position:relative;font-family:'Times New Roman' ">
+        <div style='height:20px;background-color: #a8cf45;width:100%'></div>
+
+        <div class="row">
+            <div class="col-md-12 main_color">
+                <div class="header">
+                    <div class="col-md-7" style="  width:100%; margin-left:0px; float:left;height:65px;overflow:hidden">
+                        <img src="/Images/logomain.png" style="height:80px;width:80px;float:left" />
+                        <img src="/uploads/1_59578159866n.png" style="height:80px;width:80px;float:right" />
+                        <div>
+                            <p>
+                                37 Đường 19, Phường An Khánh, TP Thủ Đức<br />
+                                090 674 8080 / 090 990 7311<br />
+                                contact@superbrain.vn
+                            </p>
+                        </div>
+
+                    </div> 
+                    <img src="img/border_5.png" style="width:100%;height:5px; margin-bottom: 0px;border:0">
+
+                    <div class="text_top" style="text-align:center;font-size:16pt;font-weight:bold">
+                        PHIẾU THU
+                    </div>
+                    <div style=" font-size:12pt;text-align:center">
+                        [ngayphieuthu]
+                    </div>
+                    <table style="margin-left:5px;margin-right:5px;" class="table table-hover table-rounded table-bordered">
+                      <tr class="table-primary">
+                            <th>STT</th>
+                            <th>Tên</th>
+                            <th>giá tiền</th>
+                            <th>thành tiền</th>
+                      </tr>
+                            @{
+                             
+
+                               DataTable datatbaleload = Session["datatable"] as DataTable;
+                            }
+                        @foreach(DataRow row in datatbaleload.Rows)
+                        {
+                            <tr>
+                                <td>@row["Name"]</td>
+                                <td>@row["Price"]</td>
+                                <td>@row["TotalAmount"]</td>
+                            </tr>
+                        }
+                       
+                    </table>
+                    <div class="text_left_5" style="border:1px solid #ff44a2; padding:5px;margin-left:10px;margin-bottom:10px;margin-right:10px;height:60px">
+                        <div style=" float:left;max-width:60%">
+                            Tên học viên:
+                            @Session["Name"]<div style="width:150px; ">
+                                ĐT:
+                                @Session["sdt"]
+                            </div>
+                            Ghi chú:
+                            <br />
+
+                        </div>
+                        <div style="width:160px;float:right">
+                            <div class="text_01">
+                                <span>
+                                    Lần thu: Lần 0
+                                    <br>
+                                    Số PT:  [maphieuthu]
+                                    <br>
+                                    Liên  1: Giao cho PH
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-5" style=" width:100px; float:right;margin-right:5px;">
+
+                    </div>
+
+                </div>
+
+
+                <div style="padding:5px; margin:0 5px;">
+                    <table style="font-size:10pt; font-family: Arial; border-collapse: collapse;border:1px solid #ff44a2;" cellspacing="0" cellpadding="10px" width="100%" border="1">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #ff44a2;width:5%">STT</th>
+                                <th style="border: 1px solid #ff44a2;" colspan="2">Nội dung</th>
+                                <th style="border: 1px solid #ff44a2;" colspan="2">Thành tiền</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> <td style="border: 1px solid #ff44a2;">1</td>  <td style="border: 1px solid #ff44a2;" colspan=4>Phiếu đăng ký khóa học số: <b>@Session["code"]</b></td> </tr>
+                            <tr>
+                                <td colspan="3" rowspan="4" style="text-align:left;border: 1px solid #ff44a2;width:50%">  Viết bằng chữ:<br />&nbsp;<b>ba triệu ba trăm tám mươi nghìn đồng chẵn</b></td>
+                                <td style="text-align:left;border: 1px solid #ff44a2;">Tổng tiền:</td>
+                                <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">@Session["totalamount"]</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;border: 1px solid #ff44a2;">Chiết khấu:</td>
+                                <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">0 </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;border: 1px solid #ff44a2;">Đã thanh toán:</td>
+                                <td colspan="2" style="border: 1px solid #ff44a2;text-align:right"> 0</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;border: 1px solid #ff44a2;">Còn lại:</td>
+                                <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">3,380,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <table style="width:100%;text-align:center">
+                    <tr>
+                        <td width="25%">Giám đốc<br /><span>(Ký,họ tên)</span></td>
+                        <td width="25%">
+                            <span style="width:128px; float:left;">
+                                Thủ quỷ<br />
+                                <span>(Ký,họ tên)</span>
+                            </span>
+                        </td>
+                        <td width="25%">
+                            <span style="width:128px; float:left;">
+                                Người lập<br />
+                                <span>(Ký,họ tên)</span>
+                            </span>
+                        </td>
+                        <td width="25%">
+                            <span style="width:128px; float:left;">
+                                Người nộp tiền<br />
+                                <span>(Ký,họ tên)</span>
+                            </span>
+                        </td>
+
+                    </tr>
+                </table>
+                <div class="clearfix"></div>
+                <div style="text-align:center; margin-bottom:2px;">
+                    <p>&nbsp;</p>
+                    <p>(Cần đối chiếu khi <strong>lập, giao, nhận</strong> hoá đơn)</p>
+                </div>
+                <div style="font-weight:bold;text-align:right;margin-bottom:5px;">Ngày in: <span>27/03/2024</span></div>
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</html>
+
+
+<div class="page1" style="font-size: 10pt; background-color: #fff;  position:relative;width:95% ;margin: 10px 10px 10px 10px; height:790px;overflow:hidden;position:relative;font-family:'Times New Roman' ">
+    <div style='height:20px;background-color: #a8cf45;width:100%'></div>
+
+    <div class="row">
+        <div class="col-md-12 main_color">
+            <div class="header">
+                <div class="col-md-7" style="  width:100%; margin-left:0px; float:left;height:65px;overflow:hidden">
+                    <img src="/Images/logomain.png" style="height:80px;width:80px;float:left" />
+                    <img src="/uploads/1_59578159866n.png" style="height:80px;width:80px;float:right" />
+                    <div>
+                        <p>
+                            37 Đường 19, Phường An Khánh, TP Thủ Đức<br />
+                            090 674 8080 / 090 990 7311<br />
+                            contact@superbrain.vn
+                        </p>
+                    </div>
+
+                </div>
+                <img src="img/border_5.png" style="width:100%;height:5px; margin-bottom: 0px;border:0">
+
+                <div class="text_top" style="text-align:center;font-size:16pt;font-weight:bold">
+                    PHIẾU THU
+                </div>
+                <div style=" font-size:12pt;text-align:center">
+                    [ngayphieuthu]
+                </div>
+
+                <div class="text_left_5" style="border:1px solid #ff44a2; padding:5px;margin-left:10px;margin-bottom:10px;margin-right:10px;height:60px">
+                    <div style=" float:left;max-width:60%">
+                        Tên học viên:
+                        Nguyễn Tiến Bách<div style="width:150px; ">
+                            ĐT:
+                            23423432
+                        </div>
+                        Ghi chú:
+                        <br />
+
+                    </div>
+                    <div style="width:160px;float:right">
+                        <div class="text_01">
+                            <span>
+                                Lần thu: Lần 0
+                                <br>
+                                Số PT:  [maphieuthu]
+                                <br>
+                                Liên  2: Lưu
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-md-5" style=" width:100px; float:right;margin-right:5px;">
+
+                </div>
+
+            </div>
+
+
+            <div style="padding:5px; margin:0 5px;">
+                <table style="font-size:10pt; font-family: Arial; border-collapse: collapse;border:1px solid #ff44a2;" cellspacing="0" cellpadding="10px" width="100%" border="1">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid #ff44a2;width:5%">STT</th>
+                            <th style="border: 1px solid #ff44a2;" colspan="2">Nội dung</th>
+                            <th style="border: 1px solid #ff44a2;" colspan="2">Thành tiền</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr> <td style="border: 1px solid #ff44a2;">1</td>  <td style="border: 1px solid #ff44a2;" colspan=4>Phiếu đăng ký khóa học số: <b>DK_HQ-59</b></td> </tr>
+                        <tr>
+                            <td colspan="3" rowspan="4" style="text-align:left;border: 1px solid #ff44a2;width:50%">  Viết bằng chữ:<br />&nbsp;<b>ba triệu ba trăm tám mươi nghìn đồng chẵn</b></td>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Tổng tiền:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right"> 3,380,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Chiết khấu:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">0 </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Đã thanh toán:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right"> 0</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Còn lại:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">3,380,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table style="width:100%;text-align:center">
+                <tr>
+                    <td width="25%">Giám đốc<br /><span>(Ký,họ tên)</span></td>
+                    <td width="25%">
+                        <span style="width:128px; float:left;">
+                            Thủ quỷ<br />
+                            <span>(Ký,họ tên)</span>
+                        </span>
+                    </td>
+                    <td width="25%">
+                        <span style="width:128px; float:left;">
+                            Người lập<br />
+                            <span>(Ký,họ tên)</span>
+                        </span>
+                    </td>
+                    <td width="25%">
+                        <span style="width:128px; float:left;">
+                            Người nộp tiền<br />
+                            <span>(Ký,họ tên)</span>
+                        </span>
+                    </td>
+
+                </tr>
+            </table>
+            <div class="clearfix"></div>
+            <div style="text-align:center; margin-bottom:2px;">
+                <p>&nbsp;</p>
+                <p>(Cần đối chiếu khi <strong>lập, giao, nhận</strong> hoá đơn)</p>
+            </div>
+            <div style="font-weight:bold;text-align:right;margin-bottom:5px;">Ngày in: <span>27/03/2024</span></div>
+            <div class="clearfix"></div>
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="page1" style="font-size: 10pt; background-color: #fff;  position:relative;width:95% ;margin: 10px 10px 10px 10px; height:790px;overflow:hidden;position:relative;font-family:'Times New Roman' ">
+    <div style='height:20px;background-color: #a8cf45;width:100%'></div>
+
+    <div class="row">
+        <div class="col-md-12 main_color">
+            <div class="header">
+                <div class="col-md-7" style="  width:100%; margin-left:0px; float:left;height:65px;overflow:hidden">
+                    <img src="/Images/logomain.png" style="height:80px;width:80px;float:left" />
+                    <img src="/uploads/1_59578159866n.png" style="height:80px;width:80px;float:right" />
+                    <div>
+                        <p>
+                            37 Đường 19, Phường An Khánh, TP Thủ Đức<br />
+                            090 674 8080 / 090 990 7311<br />
+                            contact@superbrain.vn
+                        </p>
+                    </div>
+
+                </div>
+                <img src="img/border_5.png" style="width:100%;height:5px; margin-bottom: 0px;border:0">
+
+                <div class="text_top" style="text-align:center;font-size:16pt;font-weight:bold">
+                    PHIẾU THU
+                </div>
+                <div style=" font-size:12pt;text-align:center">
+                    [ngayphieuthu]
+                </div>
+
+                <div class="text_left_5" style="border:1px solid #ff44a2; padding:5px;margin-left:10px;margin-bottom:10px;margin-right:10px;height:60px">
+                    <div style=" float:left;max-width:60%">
+                        Tên học viên:
+                        Nguyễn Tiến Bách<div style="width:150px; ">
+                            ĐT:
+                            23423432
+                        </div>
+                        Ghi chú:
+                        <br />
+
+                    </div>
+                    <div style="width:160px;float:right">
+                        <div class="text_01">
+                            <span>
+                                Lần thu: Lần 0
+                                <br>
+                                Số PT:  [maphieuthu]
+                                <br>
+                                Liên  3: Lưu BPKT
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-md-5" style=" width:100px; float:right;margin-right:5px;">
+
+                </div>
+
+            </div>
+
+
+            <div style="padding:5px; margin:0 5px;">
+                <table style="font-size:10pt; font-family: Arial; border-collapse: collapse;border:1px solid #ff44a2;" cellspacing="0" cellpadding="10px" width="100%" border="1">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid #ff44a2;width:5%">STT</th>
+                            <th style="border: 1px solid #ff44a2;" colspan="2">Nội dung</th>
+                            <th style="border: 1px solid #ff44a2;" colspan="2">Thành tiền</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr> <td style="border: 1px solid #ff44a2;">1</td>  <td style="border: 1px solid #ff44a2;" colspan=4>Phiếu đăng ký khóa học số: <b>DK_HQ-59</b></td> </tr>
+                        <tr>
+                            <td colspan="3" rowspan="4" style="text-align:left;border: 1px solid #ff44a2;width:50%">  Viết bằng chữ:<br />&nbsp;<b>ba triệu ba trăm tám mươi nghìn đồng chẵn</b></td>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Tổng tiền:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right"> 3,380,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Chiết khấu:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">0 </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Đã thanh toán:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right"> 0</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;border: 1px solid #ff44a2;">Còn lại:</td>
+                            <td colspan="2" style="border: 1px solid #ff44a2;text-align:right">3,380,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table style="width:100%;text-align:center">
+                <tr>
+                    <td width="25%">Giám đốc<br /><span>(Ký,họ tên)</span></td>
+                    <td width="25%">
+                        <span style="width:128px; float:left;">
+                            Thủ quỷ<br />
+                            <span>(Ký,họ tên)</span>
+                        </span>
+                    </td>
+                    <td width="25%">
+                        <span style="width:128px; float:left;">
+                            Người lập<br />
+                            <span>(Ký,họ tên)</span>
+                        </span>
+                    </td>
+                    <td width="25%">
+                        <span style="width:128px; float:left;">
+                            Người nộp tiền<br />
+                            <span>(Ký,họ tên)</span>
+                        </span>
+                    </td>
+
+                </tr>
+            </table>
+            <div class="clearfix"></div>
+            <div style="text-align:center; margin-bottom:2px;">
+                <p>&nbsp;</p>
+                <p>(Cần đối chiếu khi <strong>lập, giao, nhận</strong> hoá đơn)</p>
+            </div>
+            <div style="font-weight:bold;text-align:right;margin-bottom:5px;">Ngày in: <span>27/03/2024</span></div>
+            <div class="clearfix"></div>
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div style="position:fixed;bottom:-10px;height:20px;overflow:hidden;left:0">
+    <img src="img/bottom_bg.jpg" />
+</div>
+ <script>
+    window.print();
+ </script>
+
+
+

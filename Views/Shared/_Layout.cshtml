@@ -52,102 +52,151 @@
                                 <span class="hide-menu">Tổng quan</span>
                             </a>
                         </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu text-success">Quản Lý</span>
-                        </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(3)">
+                        <li class="sidebar-item">
                             <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-alert-circle"></i>
+                                    <i class="bx bxs-graduation fs-6"></i>
                                 </span>
                                 <span class="hide-menu">Chương trình</span>
+                                <span class="badge badge-pill badge-danger float-right"><i class="ti ti-chevrons-down"></i></span>
                             </a>
-                        </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(1)">
-                            <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">Lớp học</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(2)">
-                            <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-cards"></i>
-                                </span>
-                                <span class="hide-menu">Học viên</span>
-                            </a>
+                            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(3)">
+                                    <a href="/programs" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-coffee me-2 ms-1"></i> Chương trình học</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="/courses" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-certificate me-2 ms-1"></i> Khóa học</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-certificate me-2 ms-1"></i> Khóa học cơ sở</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-chart-line me-2 ms-1"></i> Thống kê khóa học</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-cards"></i>
+                                    <i class="bx bxs-graduation fs-6"></i>
                                 </span>
-                                <span class="hide-menu">Cuộc thi Toàn Quốc</span>
+                                <span class="hide-menu">Lớp học</span>
+                                <span class="badge badge-pill badge-danger float-right"><i class="ti ti-chevrons-down"></i></span>
                             </a>
+                            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(3)">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-home me-2 ms-1"></i> Phòng học</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-abacus me-2 ms-1"></i> Lớp học</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-checklist me-2 ms-1"></i> Điểm danh</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-writing-sign me-2 ms-1"></i> Nhập điểm</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-calendar-event me-2 ms-1"></i> Lịch học</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-chart-line me-2 ms-1"></i> Thống kê lớp học</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(4)">
+                        <li class="sidebar-item">
                             <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-file-description"></i>
+                                    <i class="bx bxs-graduation fs-6"></i>
                                 </span>
-                                <span class="hide-menu">Nhân sự</span>
+                                <span class="hide-menu">Học viên</span>
+                                <span class="badge badge-pill badge-danger float-right"><i class="ti ti-chevrons-down"></i></span>
                             </a>
+                            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(3)">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-home me-2 ms-1"></i> Danh sách</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-chart-line me-2 ms-1"></i> Danh sách vắng</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-checklist me-2 ms-1"></i> Gần kết khóa</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-abacus me-2 ms-1"></i> Thống kê học viên</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-calendar-event me-2 ms-1"></i> Sinh nhật</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-writing-sign me-2 ms-1"></i> Giấy chứng nhận</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(14)">
+                        <li class="sidebar-item">
                             <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-typography"></i>
+                                    <i class="ti ti-building-warehouse fs-6"></i>
                                 </span>
-                                <span class="hide-menu">Khóa đào tạo</span>
+                                <span class="hide-menu">Quản lý Kho</span>
+                                <span class="badge badge-pill badge-danger float-right"><i class="ti ti-chevrons-down"></i></span>
                             </a>
+                            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(3)">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-box me-2 ms-1"></i> Danh sách vật tư</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-checklist me-2 ms-1"></i> Chi tiết thẻ kho</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="javascript:void(0)" class="sidebar-link">
+                                        <span class="hide-menu"><i class="ti ti-chart-line me-2 ms-1"></i> Thống kê</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(6)">
+                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(11)">
                             <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-typography"></i>
+                                    <i class="ti ti-shopping-cart"></i>
                                 </span>
-                                <span class="hide-menu">Quản lý kho</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(5)">
-                            <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-typography"></i>
-                                </span>
-                                <span class="hide-menu">Kế toán</span>
-                            </a>
-                        </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu text-primary">Người dùng</span>
-                        </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(7)">
-                            <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-mood-happy"></i>
-                                </span>
-                                <span class="hide-menu">Thông báo</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(12)">
-                            <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-aperture"></i>
-                                </span>
-                                <span class="hide-menu">Email,SMS</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(8)">
-                            <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-aperture"></i>
-                                </span>
-                                <span class="hide-menu">Tài liệu</span>
+                                <span class="hide-menu"> Đơn hàng</span>
                             </a>
                         </li>
                         <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(11)">
@@ -158,9 +207,8 @@
                                 <span class="hide-menu">Cài đặt</span>
                             </a>
                         </li>
-
                         <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(10)">
-                            <a class="sidebar-link" href="@Url.Action("Index", "Users")" aria-expanded="false">
+                            <a class="sidebar-link" href="/users" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-aperture"></i>
                                 </span>
@@ -168,7 +216,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item @SuperbrainManagement.Controllers.CheckUsers.checkRole(9)">
-                            <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                            <a class="sidebar-link" href="/branches" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-aperture"></i>
                                 </span>

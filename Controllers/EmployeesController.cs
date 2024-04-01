@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
 using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
@@ -15,11 +17,74 @@ namespace SuperbrainManagement.Controllers
         private ModelDbContext db = new ModelDbContext();
 
         // GET: Employees
-        public ActionResult Index()
+
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string idBranch)
         {
-            var employees = db.Employees.Include(e => e.Branch).Include(e => e.Position);
-            return View(employees.ToList());
+            var branches = db.Branches.ToList();
+            int idbranch = int.Parse(CheckUsers.idBranch());
+            if (!CheckUsers.CheckHQ())
+            {
+                branches = db.Branches.Where(x => x.Id == idbranch).ToList();
+            }
+            if (string.IsNullOrEmpty(idBranch))
+            {
+                idBranch = branches.First().Id.ToString();
+            }
+            ViewBag.IdBranch = new SelectList(branches, "Id", "Name", idBranch);
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            var employees = db.Employees.ToList();
+
+            if (!string.IsNullOrEmpty(idBranch))
+            {
+                employees = employees.Where(x => x.IdBranch == int.Parse(idBranch)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                employees = employees.Where(x => x.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    employees = employees.OrderByDescending(s => s.Name).ToList();
+                    break;
+                case "date":
+                    employees = employees.OrderBy(s => s.Id).ToList();
+                    break;
+                case "name":
+                    employees = employees.OrderBy(s => s.Name).ToList();
+                    break;
+                default:
+                    employees = employees.OrderByDescending(s => s.Id).ToList();
+                    break;
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+
+
+            var pagedData = employees.ToPagedList(pageNumber, pageSize);
+
+            var pagedListRenderOptions = new PagedListRenderOptions();
+            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
+            {
+                liTag.AddCssClass("page-item");
+                aTag.AddCssClass("page-link");
+                return liTag;
+            };
+
+            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
+            return View(pagedData);
         }
+
 
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
