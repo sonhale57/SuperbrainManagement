@@ -10,114 +10,112 @@ using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
 {
-    public class RoomsController : Controller
+    public class ConfigurationsController : Controller
     {
         private ModelDbContext db = new ModelDbContext();
 
-        // GET: Rooms
+        // GET: Configurations
         public ActionResult Index()
         {
-            var rooms = db.Rooms.Include(r => r.Branch).Include(r => r.User);
-            return View(rooms.ToList());
+            var configurations = db.Configurations.Include(c => c.User);
+            return View(configurations.ToList());
         }
 
-        // GET: Rooms/Details/5
+        // GET: Configurations/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.Rooms.Find(id);
-            if (room == null)
+            Configuration configuration = db.Configurations.Find(id);
+            if (configuration == null)
             {
                 return HttpNotFound();
             }
-            return View(room);
+            return View(configuration);
         }
 
-        // GET: Rooms/Create
+        // GET: Configurations/Create
         public ActionResult Create()
         {
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name");
             return View();
         }
 
-        // POST: Rooms/Create
+        // POST: Configurations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser")] Room room)
+        public ActionResult Create([Bind(Include = "Id,VAT,UsageFee,AccountFee,TimePayment,DiscountGroup1,DiscountGroup2,DiscountGroup3,DiscountGroup4,DiscountGroup5,DiscountGroup6,DiscountGroup7,IdUser")] Configuration configuration)
         {
             if (ModelState.IsValid)
             {
-                room.DateCreate = DateTime.Now;
-                room.IdUser =int.Parse(CheckUsers.iduser()) ;
-                room.IdBranch = int.Parse(CheckUsers.idBranch());
-                db.Rooms.Add(room);
+                db.Configurations.Add(configuration);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(room);
+
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", configuration.IdUser);
+            return View(configuration);
         }
 
-        // GET: Rooms/Edit/5
+        // GET: Configurations/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.Rooms.Find(id);
-            if (room == null)
+            Configuration configuration = db.Configurations.Find(id);
+            if (configuration == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", room.IdBranch);
-            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", room.IdUser);
-            return View(room);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", configuration.IdUser);
+            return View(configuration);
         }
 
-        // POST: Rooms/Edit/5
+        // POST: Configurations/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser")] Room room)
+        public ActionResult Edit([Bind(Include = "Id,VAT,UsageFee,AccountFee,TimePayment,DiscountGroup1,DiscountGroup2,DiscountGroup3,DiscountGroup4,DiscountGroup5,DiscountGroup6,DiscountGroup7,IdUser")] Configuration configuration)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(room).State = EntityState.Modified;
+                db.Entry(configuration).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", room.IdBranch);
-            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", room.IdUser);
-            return View(room);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", configuration.IdUser);
+            return View(configuration);
         }
 
-        // GET: Rooms/Delete/5
+        // GET: Configurations/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.Rooms.Find(id);
-            if (room == null)
+            Configuration configuration = db.Configurations.Find(id);
+            if (configuration == null)
             {
                 return HttpNotFound();
             }
-            return View(room);
+            return View(configuration);
         }
 
-        // POST: Rooms/Delete/5
+        // POST: Configurations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Room room = db.Rooms.Find(id);
-            db.Rooms.Remove(room);
+            Configuration configuration = db.Configurations.Find(id);
+            db.Configurations.Remove(configuration);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

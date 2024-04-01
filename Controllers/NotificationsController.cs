@@ -10,114 +10,116 @@ using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
 {
-    public class RoomsController : Controller
+    public class NotificationsController : Controller
     {
         private ModelDbContext db = new ModelDbContext();
 
-        // GET: Rooms
+        // GET: Notifications
         public ActionResult Index()
         {
-            var rooms = db.Rooms.Include(r => r.Branch).Include(r => r.User);
-            return View(rooms.ToList());
+            var notifications = db.Notifications.Include(n => n.Branch).Include(n => n.User);
+            return View(notifications.ToList());
         }
 
-        // GET: Rooms/Details/5
+        // GET: Notifications/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.Rooms.Find(id);
-            if (room == null)
+            Notification notification = db.Notifications.Find(id);
+            if (notification == null)
             {
                 return HttpNotFound();
             }
-            return View(room);
+            return View(notification);
         }
 
-        // GET: Rooms/Create
+        // GET: Notifications/Create
         public ActionResult Create()
         {
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo");
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name");
             return View();
         }
 
-        // POST: Rooms/Create
+        // POST: Notifications/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser")] Room room)
+        public ActionResult Create([Bind(Include = "Id,DateCreate,IdUser,Title,Description,Link,Type,Value,IsPublic,IdBranch")] Notification notification)
         {
             if (ModelState.IsValid)
             {
-                room.DateCreate = DateTime.Now;
-                room.IdUser =int.Parse(CheckUsers.iduser()) ;
-                room.IdBranch = int.Parse(CheckUsers.idBranch());
-                db.Rooms.Add(room);
+                db.Notifications.Add(notification);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(room);
+
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", notification.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", notification.IdUser);
+            return View(notification);
         }
 
-        // GET: Rooms/Edit/5
+        // GET: Notifications/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.Rooms.Find(id);
-            if (room == null)
+            Notification notification = db.Notifications.Find(id);
+            if (notification == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", room.IdBranch);
-            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", room.IdUser);
-            return View(room);
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", notification.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", notification.IdUser);
+            return View(notification);
         }
 
-        // POST: Rooms/Edit/5
+        // POST: Notifications/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdBranch,DateCreate,IdUser")] Room room)
+        public ActionResult Edit([Bind(Include = "Id,DateCreate,IdUser,Title,Description,Link,Type,Value,IsPublic,IdBranch")] Notification notification)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(room).State = EntityState.Modified;
+                db.Entry(notification).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", room.IdBranch);
-            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", room.IdUser);
-            return View(room);
+            ViewBag.IdBranch = new SelectList(db.Branches, "Id", "Logo", notification.IdBranch);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Name", notification.IdUser);
+            return View(notification);
         }
 
-        // GET: Rooms/Delete/5
+        // GET: Notifications/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.Rooms.Find(id);
-            if (room == null)
+            Notification notification = db.Notifications.Find(id);
+            if (notification == null)
             {
                 return HttpNotFound();
             }
-            return View(room);
+            return View(notification);
         }
 
-        // POST: Rooms/Delete/5
+        // POST: Notifications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Room room = db.Rooms.Find(id);
-            db.Rooms.Remove(room);
+            Notification notification = db.Notifications.Find(id);
+            db.Notifications.Remove(notification);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

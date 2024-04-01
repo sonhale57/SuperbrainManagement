@@ -262,14 +262,17 @@
     <Compile Include="Controllers\BranchGroupsController.cs" />
     <Compile Include="Controllers\CheckUsers.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\ConfigurationsController.cs" />
     <Compile Include="Controllers\Connect.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\DataSuggestsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Language.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\MD5Hash.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\Sendmail.cs" />
@@ -809,6 +812,21 @@
     <Content Include="Views\Feeds\Details.cshtml" />
     <Content Include="Views\Feeds\Edit.cshtml" />
     <Content Include="Views\Feeds\Index.cshtml" />
+    <Content Include="Views\Configurations\Create.cshtml" />
+    <Content Include="Views\Configurations\Delete.cshtml" />
+    <Content Include="Views\Configurations\Details.cshtml" />
+    <Content Include="Views\Configurations\Edit.cshtml" />
+    <Content Include="Views\Configurations\Index.cshtml" />
+    <Content Include="Views\Notifications\Create.cshtml" />
+    <Content Include="Views\Notifications\Delete.cshtml" />
+    <Content Include="Views\Notifications\Details.cshtml" />
+    <Content Include="Views\Notifications\Edit.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\DataSuggests\Create.cshtml" />
+    <Content Include="Views\DataSuggests\Delete.cshtml" />
+    <Content Include="Views\DataSuggests\Details.cshtml" />
+    <Content Include="Views\DataSuggests\Edit.cshtml" />
+    <Content Include="Views\DataSuggests\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

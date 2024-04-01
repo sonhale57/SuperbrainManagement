@@ -51,7 +51,7 @@ namespace SuperbrainManagement.Controllers
             if (ModelState.IsValid)
             {
                 @class.DateCreate = DateTime.Now;
-                @class.IdBranch = CheckUsers.idBranch();
+                @class.IdBranch = int.Parse(CheckUsers.idBranch());
                 @class.IdUser =int.Parse(CheckUsers.iduser());
                 db.Classes.Add(@class);
                 db.SaveChanges();
