@@ -53,7 +53,7 @@ namespace SuperbrainManagement.Controllers
             {
                 room.DateCreate = DateTime.Now;
                 room.IdUser =int.Parse(CheckUsers.iduser()) ;
-                room.IdBranch = CheckUsers.idBranch();
+                room.IdBranch = int.Parse(CheckUsers.idBranch());
                 db.Rooms.Add(room);
                 db.SaveChanges();
                 return RedirectToAction("Index");
