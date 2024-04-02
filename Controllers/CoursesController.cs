@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
 using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
@@ -15,12 +17,103 @@ namespace SuperbrainManagement.Controllers
         private ModelDbContext db = new ModelDbContext();
 
         // GET: Courses
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var courses = db.Courses.Include(c => c.Program).Include(c => c.User);
-            return View(courses.ToList());
-        }
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
 
+            var courses = db.Courses.Include(b => b.Program);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                courses = courses.Where(x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Code.ToLower().Contains(searchString.ToLower()) || x.Program.Name.ToLower().Contains(searchString.ToLower()));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    courses = courses.OrderByDescending(s => s.Name);
+                    break;
+                case "date":
+                    courses = courses.OrderBy(s => s.Id);
+                    break;
+                case "date_desc":
+                    courses = courses.OrderByDescending(s => s.Id);
+                    break;
+                case "name":
+                    courses = courses.OrderBy(s => s.Name);
+                    break;
+                default:
+                    courses = courses.OrderBy(s => s.Program.Name);
+                    break;
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            var pagedData = courses.ToPagedList(pageNumber, pageSize);
+            var pagedListRenderOptions = new PagedListRenderOptions();
+            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
+            {
+                liTag.AddCssClass("page-item");
+                aTag.AddCssClass("page-link");
+                return liTag;
+            };
+            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
+            return View(pagedData);
+        }
+        /*
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            var program = db.Programs;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                program = program.Where(x => x.Name.ToLower().Contains(searchString.ToLower()) || x.Code.ToLower().Contains(searchString.ToLower()) || x.Program.Name.ToLower().Contains(searchString.ToLower()));
+            }/*
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    courses = courses.OrderByDescending(s => s.Name);
+                    break;
+                case "date":
+                    courses = courses.OrderBy(s => s.Id);
+                    break;
+                case "date_desc":
+                    courses = courses.OrderByDescending(s => s.Id);
+                    break;
+                case "name":
+                    courses = courses.OrderBy(s => s.Name);
+                    break;
+                default:
+                    courses = courses.OrderBy(s => s.Program.Name);
+                    break;
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            var pagedData = program.ToPagedList(pageNumber, pageSize);
+            var pagedListRenderOptions = new PagedListRenderOptions();
+            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
+            {
+                liTag.AddCssClass("page-item");
+                aTag.AddCssClass("page-link");
+                return liTag;
+            };
+            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
+            return View(pagedData);
+        }*/
         // GET: Courses/Details/5
         public ActionResult Details(int? id)
         {

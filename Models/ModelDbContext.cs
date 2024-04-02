@@ -530,6 +530,12 @@ namespace SuperbrainManagement.Models
                 .WithOptional(e => e.MKTCampaign)
                 .HasForeignKey(e => e.IdBranch);
 
+
+            modelBuilder.Entity<Student>()
+               .HasOptional(s => s.User)  // Optional relationship
+               .WithMany()
+               .HasForeignKey(s => s.IdUser);  // Foreign key column
+
             modelBuilder.Entity<NewsFeed>()
                 .HasMany(e => e.ReactionNewsFeeds)
                 .WithRequired(e => e.NewsFeed)

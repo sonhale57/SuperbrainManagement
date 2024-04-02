@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int stt = 1;
 }
-<div class="card shadow">
+<div class="card shadow rounded-0">
     <div class="card-body">
         <div class="row">
             <div class="col col-md-6 col-sm-12">
@@ -88,7 +88,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li><a class="dropdown-item" href=""><i class="ti ti-user-off"></i> Đổi mật khẩu</a></li>
-                            <li><button type="button" class="confirmButton dropdown-item" onclick="getDataPermission(@item.Id)" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="ti ti-user-check"></i> Phân quyền</button></li>
+                            <li><button type="button" class="confirmButton dropdown-item" onclick="getDataPermission(@item.Id)" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="ti ti-lock-access"></i> Phân quyền</button></li>
                         </ul>
                     </td>
                 </tr>
@@ -225,7 +225,10 @@
                     // Handle the response from the controller if needed
                     console.log("Data submitted successfully to the controller.");
                     console.log("Response from the controller:", response);
-                    showSuccess("Cập nhật thành công!", 3000);
+                    
+                    if (response.status == 200) {
+                        showSuccess("Cập nhật thành công!", 3000);
+                    }
                 },
                 error: function (xhr, status, error) {
                     // Handle errors here

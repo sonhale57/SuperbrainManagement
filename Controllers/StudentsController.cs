@@ -10,6 +10,8 @@ using System.Web.Management;
 using System.Web.Mvc;
 using Google.Protobuf.WellKnownTypes;
 using Mysqlx.Crud;
+using PagedList.Mvc;
+using PagedList;
 using SuperbrainManagement.Models;
 
 namespace SuperbrainManagement.Controllers
@@ -19,10 +21,71 @@ namespace SuperbrainManagement.Controllers
         private ModelDbContext db = new ModelDbContext();
 
         // GET: Students
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string idBranch)
         {
-            var students = db.Students.Include(s => s.Branch).Include(s => s.MKTCampaign);
-            return View(students.ToList());
+            var branches = db.Branches.ToList();
+            int idbranch = int.Parse(CheckUsers.idBranch());
+            if (!CheckUsers.CheckHQ())
+            {
+                branches = db.Branches.Where(x => x.Id == idbranch).ToList();
+            }
+            if (string.IsNullOrEmpty(idBranch))
+            {
+                idBranch = branches.First().Id.ToString();
+            }
+            ViewBag.IdBranch = new SelectList(branches, "Id", "Name", idBranch);
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            var students = db.Students.Include(x=>x.User).ToList();
+
+            if (!string.IsNullOrEmpty(idBranch))
+            {
+                students = students.Where(x => x.IdBranch == int.Parse(idBranch)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(x => x.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    students = students.OrderByDescending(s => s.Name).ToList();
+                    break;
+                case "date":
+                    students = students.OrderBy(s => s.Id).ToList();
+                    break;
+                case "name":
+                    students = students.OrderBy(s => s.Name).ToList();
+                    break;
+                default:
+                    students = students.OrderByDescending(s => s.Id).ToList();
+                    break;
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+
+
+            var pagedData = students.ToPagedList(pageNumber, pageSize);
+
+            var pagedListRenderOptions = new PagedListRenderOptions();
+            pagedListRenderOptions.FunctionToTransformEachPageLink = (liTag, aTag) =>
+            {
+                liTag.AddCssClass("page-item");
+                aTag.AddCssClass("page-link");
+                return liTag;
+            };
+
+            ViewBag.PagedListRenderOptions = pagedListRenderOptions;
+            return View(pagedData);
         }
 
         public ActionResult AddCourseProgramOfStudents(int IdStudent)

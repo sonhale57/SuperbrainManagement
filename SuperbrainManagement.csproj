@@ -271,6 +271,7 @@
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\MD5Hash.cs" />
     <Compile Include="Controllers\ProgramsController.cs" />
+    <Compile Include="Controllers\MarketingCampaignsController.cs" />
     <Compile Include="Controllers\RegistrationStudent\ProductCoursesController.cs" />
     <Compile Include="Controllers\RegistrationStudent\ProductPromotionsController.cs" />
     <Compile Include="Controllers\RegistrationStudent\ProductsController.cs" />
@@ -849,6 +850,11 @@
     <Content Include="Views\VacationSchedules\Details.cshtml" />
     <Content Include="Views\VacationSchedules\Edit.cshtml" />
     <Content Include="Views\VacationSchedules\Index.cshtml" />
+    <Content Include="Views\MarketingCampaigns\Create.cshtml" />
+    <Content Include="Views\MarketingCampaigns\Delete.cshtml" />
+    <Content Include="Views\MarketingCampaigns\Details.cshtml" />
+    <Content Include="Views\MarketingCampaigns\Edit.cshtml" />
+    <Content Include="Views\MarketingCampaigns\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

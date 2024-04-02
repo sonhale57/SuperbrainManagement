@@ -115,6 +115,7 @@ namespace SuperbrainManagement.Models
         public int? IdUser { get; set; }
 
         public virtual Branch Branch { get; set; }
+        public virtual User User { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Competition> Competitions { get; set; }
